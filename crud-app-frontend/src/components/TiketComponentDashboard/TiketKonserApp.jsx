@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Accordion, Button, Spinner, Modal, Form } from "react-bootstrap";
-import axios from "axios";
+import api from "../../api/axios";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,7 @@ const TiketKonserApp = () => {
     nama_konser: "",
     deskripsi_acara: "",
     lokasi: "",
-    tanggal: ""
+    tanggal: "",
   });
   const navigate = useNavigate();
 
@@ -30,61 +30,55 @@ const TiketKonserApp = () => {
   };
 
   const handleCloseModal = () => setShowModal(false);
-  
+
   const handleOpenEditModal = (konser) => {
     setSelectedKonser(konser);
     setEditFormData({
       nama_konser: konser.nama_konser,
       deskripsi_acara: konser.deskripsi_acara,
       lokasi: konser.lokasi,
-      tanggal: konser.tanggal
+      tanggal: konser.tanggal,
     });
     setShowEditModal(true);
   };
 
   const handleCloseEditModal = () => setShowEditModal(false);
-  
+
   const handleEditInputChange = (e) => {
     const { name, value } = e.target;
     setEditFormData({
       ...editFormData,
-      [name]: value
+      [name]: value,
     });
   };
-  
+
   const handleEditSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.put(
-        `http://localhost:3000/api/konser/${selectedKonser.id}`,
-        editFormData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        }
-      );
-      
+      await api.put(`/konser/${selectedKonser.id}`, editFormData);
+
       Swal.fire({
         title: "Berhasil!",
         text: "Data konser berhasil diperbarui",
         icon: "success",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
       });
-      
+
       handleCloseEditModal();
       getDataTiket();
     } catch (error) {
       console.error("Error updating konser:", error);
       Swal.fire({
         title: "Gagal!",
-        text: `Terjadi kesalahan: ${error.response?.data?.error || error.message}`,
+        text: `Terjadi kesalahan: ${
+          error.response?.data?.error || error.message
+        }`,
         icon: "error",
-        confirmButtonText: "OK"
+        confirmButtonText: "OK",
       });
     }
   };
-  
+
   const handleDelete = (konser) => {
     Swal.fire({
       title: "Apakah Anda yakin?",
@@ -94,31 +88,33 @@ const TiketKonserApp = () => {
       confirmButtonColor: "#d33",
       cancelButtonColor: "#3085d6",
       confirmButtonText: "Ya, hapus!",
-      cancelButtonText: "Batal"
+      cancelButtonText: "Batal",
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(`http://localhost:3000/api/konser/${konser.id}`, {
+          await api.delete(`/konser/${konser.id}`, {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           });
-          
+
           Swal.fire({
             title: "Terhapus!",
             text: "Data konser berhasil dihapus",
             icon: "success",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
           });
-          
+
           getDataTiket();
         } catch (error) {
           console.error("Error deleting konser:", error);
           Swal.fire({
             title: "Gagal!",
-            text: `Terjadi kesalahan: ${error.response?.data?.error || error.message}`,
+            text: `Terjadi kesalahan: ${
+              error.response?.data?.error || error.message
+            }`,
             icon: "error",
-            confirmButtonText: "OK"
+            confirmButtonText: "OK",
           });
         }
       }
@@ -129,16 +125,13 @@ const TiketKonserApp = () => {
     try {
       setLoading(true);
       // Mengambil data konser
-      const { data } = await axios.get("http://localhost:3000/api/konser");
+      const { data } = await api.get("/konser");
       // Mengambil data pembayaran
-      const { data: paymentData } = await axios.get(
-        "http://localhost:3000/api/konser/payments/all",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const { data: paymentData } = await api.get("/konser/payments/all", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       console.log(paymentData);
       setPaymentData(paymentData.data || []);
       // Filter data berdasarkan status WAITING secara default
@@ -259,7 +252,9 @@ const TiketKonserApp = () => {
                         <td>
                           {payment.bukti_pembayaran ? (
                             <img
-                              src={`/${payment.bukti_pembayaran}`}
+                              src={`${import.meta.env.VITE_API_URL_IMAGE}/${
+                                payment.bukti_pembayaran
+                              }`}
                               alt="Bukti Pembayaran"
                               style={{ width: "50px" }}
                             />
@@ -333,7 +328,9 @@ const TiketKonserApp = () => {
                     <td>
                       {tiket.image ? (
                         <img
-                          src={`http://localhost:3000/${tiket.image}`}
+                          src={`${import.meta.env.VITE_API_URL_IMAGE}/${
+                            tiket.image
+                          }`}
                           style={{
                             width: "50px",
                             height: "50px",
@@ -343,7 +340,8 @@ const TiketKonserApp = () => {
                           className="img-thumbnail"
                           onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = "https://dummyimage.com/50x50/cccccc/ffffff&text=No+Image";
+                            e.target.src =
+                              "https://dummyimage.com/50x50/cccccc/ffffff&text=No+Image";
                           }}
                         />
                       ) : (
@@ -366,18 +364,18 @@ const TiketKonserApp = () => {
                     <td>
                       <div className="d-flex gap-2">
                         <Button
-                          variant="outline-secondary"
+                          variant="warning"
                           size="sm"
                           onClick={() => handleOpenEditModal(tiket)}
                         >
-                          <i className="bi bi-pencil"></i>
+                          <i className="bi bi-pencil-fill"></i>
                         </Button>
                         <Button
-                          variant="outline-danger"
+                          variant="danger"
                           size="sm"
                           onClick={() => handleDelete(tiket)}
                         >
-                          <i className="bi bi-trash"></i>
+                          <i className="bi bi-trash-fill"></i>
                         </Button>
                       </div>
                     </td>
@@ -480,9 +478,9 @@ const TiketKonserApp = () => {
                   }).then((result) => {
                     if (result.isConfirmed) {
                       // Kirim permintaan ke API untuk mengubah status menjadi REJECT
-                      axios
+                      api
                         .put(
-                          `http://localhost:3000/api/konser/payment/${selectedPayment.id}/status`,
+                          `/konser/payment/${selectedPayment.id}/status`,
                           { status: "REJECT" },
                           { headers: { Authorization: `Bearer ${token}` } }
                         )
@@ -527,9 +525,9 @@ const TiketKonserApp = () => {
                   }).then((result) => {
                     if (result.isConfirmed) {
                       // Kirim permintaan ke API untuk mengubah status menjadi ACCEPT
-                      axios
+                      api
                         .put(
-                          `http://localhost:3000/api/konser/payment/${selectedPayment.id}/status`,
+                          `/konser/payment/${selectedPayment.id}/status`,
                           { status: "ACCEPT" },
                           { headers: { Authorization: `Bearer ${token}` } }
                         )
@@ -629,6 +627,5 @@ const TiketKonserApp = () => {
     </div>
   );
 };
-
 
 export default TiketKonserApp;

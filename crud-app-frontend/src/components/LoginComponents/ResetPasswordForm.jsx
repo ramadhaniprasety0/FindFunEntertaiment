@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api/axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -18,14 +18,14 @@ const ResetPasswordForm = () => {
   const location = useLocation();
   
   useEffect(() => {
-    // Ambil userId dari query parameter
+    
     const params = new URLSearchParams(location.search);
     const userIdParam = params.get('userId');
     
     if (userIdParam) {
       setUserId(userIdParam);
     } else {
-      // Redirect ke halaman lupa password jika tidak ada userId
+    
       navigate('/forgot-password');
     }
   }, [location, navigate]);
@@ -49,7 +49,7 @@ const ResetPasswordForm = () => {
     }
     
     try {
-      await axios.post('http://localhost:3000/api/reset-password', { userId, password });
+      await api.post('/reset-password', { userId, password });
       
       Swal.fire({
         title: 'Berhasil!',

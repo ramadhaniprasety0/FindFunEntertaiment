@@ -1,12 +1,11 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 const FormEditMusic = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
   const { id } = useParams();
 
   const [title, setTitle] = useState("");
@@ -34,11 +33,11 @@ const FormEditMusic = () => {
       try {
         setLoading(true);
         
-        const { data } = await axios.get(`http://localhost:3000/api/music/${id}?include=all`);
+        const { data } = await api.get(`/music/${id}?include=all`);
         
-        const { data: data_artist } = await axios.get(`http://localhost:3000/api/music/${id}/artists`);
+        const { data: data_artist } = await api.get(`/music/${id}/artists`);
         
-        const { data: data_album } = await axios.get(`http://localhost:3000/api/music/${id}/albums`);
+        const { data: data_album } = await api.get(`/music/${id}/albums`);
         
         if (data && data.data && data_artist && data_artist.data && data_album && data_album.data) {
           const music = data.data;
@@ -63,7 +62,7 @@ const FormEditMusic = () => {
 
           if (music.image) {
             setExistingImage(music.image);
-            setPreviewImage(`http://localhost:3000/${music.image}`);
+            setPreviewImage(`${import.meta.env.VITE_API_URL_IMAGE}/${music.image}`);
           }
         
         } else {
@@ -88,7 +87,7 @@ const FormEditMusic = () => {
   useEffect(() => {
     const getArtists = async () => {
         try {
-            const { data } = await axios.get("http://localhost:3000/api/artists");
+            const { data } = await api.get("/artists");
             setArtists(data.data);
         } catch (error) {
             console.error(error);
@@ -98,7 +97,7 @@ const FormEditMusic = () => {
 
     const getAlbums = async () => {
         try {
-            const { data } = await axios.get("http://localhost:3000/api/albums");
+            const { data } = await api.get("/albums");
             setAlbums(data.data);
         } catch (error) {
             console.error(error);
@@ -192,10 +191,9 @@ const FormEditMusic = () => {
         console.log(`${key}:`, value);
       }
   
-      await axios.put(`http://localhost:3000/api/music/${id}`, formData, {
+      await api.put(`/music/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       });
   

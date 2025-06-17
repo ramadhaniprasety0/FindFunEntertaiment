@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios"; // Ganti import axios dengan api dari file axios.js
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 const FormAddAlbum = () => {
     const navigate = useNavigate();
-    const token = localStorage.getItem("token");
+    // Token tidak perlu diambil manual karena sudah ditangani oleh axios.js
+    // const token = localStorage.getItem("token");
 
     const [title, setTitle] = useState("");
     const [releaseYear, setReleaseYear] = useState("");
@@ -21,7 +22,7 @@ const FormAddAlbum = () => {
 
     const getData = async () =>{
         try {
-            const { data } = await axios.get("http://localhost:3000/api/album");
+            const { data } = await api.get("/album"); // Hapus URL hardcoded, gunakan endpoint relatif
             setDataAlbum(data.data);
         } catch (error) {
             console.error(error);
@@ -30,7 +31,7 @@ const FormAddAlbum = () => {
 
     const getArtists = async () => {
         try {
-            const { data } = await axios.get("http://localhost:3000/api/artists");
+            const { data } = await api.get("/artists"); // Hapus URL hardcoded, gunakan endpoint relatif
             setArtists(data.data);
         } catch (error) {
             console.error(error);
@@ -82,13 +83,13 @@ const FormAddAlbum = () => {
                 console.log(`${key}:`, value);
             }
     
-            await axios.post("http://localhost:3000/api/albums", formData, {
+            await api.post("/albums", formData, {
                 headers: {
                     "Content-Type": "multipart/form-data",
-                    Authorization: `Bearer ${token}`,
+                    // Authorization header tidak perlu karena sudah ditangani oleh axios.js
                 },
             });
-    
+            
             Swal.fire('Berhasil!', 'Album berhasil ditambahkan.', 'success');
             navigate("/dashboard/albums");
         } catch (error) {

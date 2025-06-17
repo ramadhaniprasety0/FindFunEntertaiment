@@ -1,7 +1,7 @@
 // src/components/MusicComponentsHome/PopularComponentMusic.js
 import { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap"; // Col dan Row tidak lagi digunakan di sini
-import axios from "axios";
+import api from "../../api/axios";
 import { Link } from "react-router-dom";
 
 // Komponen menerima props filter dari induk
@@ -23,7 +23,7 @@ const KonserComponentMusic = ({
       setLoading(true);
       setError(null);
       try {
-        const { data } = await axios.get("http://localhost:3000/api/music/?include=all");
+        const { data } = await api.get("/music/?include=all");
 
         if (data && Array.isArray(data.data)) {
           setOriginalMusics(data.data);
@@ -114,16 +114,16 @@ const KonserComponentMusic = ({
   }
 
   return (
-    // --- PERBAIKAN: KEMBALIKAN KE STRUKTUR HORIZONTAL SCROLL ---
+  
     <div className="horizontal-scroll-wrapper">
       <div className="horizontal-scroll-content">
         {displayedMusics.map((music) => (
-          // Setiap kartu dibungkus div dengan kelas item-scroll
+          
           <div key={music.id} className="music-popular-item-scroll">
             <Link to={`/Music/${music.id}`} className="text-decoration-none">
               <div className="music-popular-card h-100">
                 <img
-                  src={`http://localhost:3000/${music.image}`}
+                  src={`${import.meta.env.VITE_API_URL_IMAGE}/${music.image}`}
                   alt={music.title || "Gambar Musik"}
                   className="music-popular-image"
                   onError={(e) => {
@@ -155,7 +155,7 @@ const KonserComponentMusic = ({
         ))}
       </div>
     </div>
-    // --- AKHIR PERUBAHAN JSX ---
+    
   );
 };
 

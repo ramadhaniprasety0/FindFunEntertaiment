@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -10,21 +10,21 @@ const FormUpdateCarousel = () => {
   const token = localStorage.getItem("token");
 
   const [carausel_name, setCarauselName] = useState("");
-  const [titleImage, setTitleImage] = useState(null); // Image for title
-  const [image, setImage] = useState(null); // Image for carousel
-  const [previewImage, setPreviewImage] = useState(""); // Preview of main image
-  const [previewTitleImage, setPreviewTitleImage] = useState(""); // Preview of title image
-  const [existingImage, setExistingImage] = useState(""); // Existing image for carousel
-  const [existingTitleImage, setExistingTitleImage] = useState(""); // Existing title image
-  const [deskripsi, setDeskripsi] = useState(""); // Description of carousel
-  const [status, setStatus] = useState(""); // Status (active by default)
+  const [titleImage, setTitleImage] = useState(null); 
+  const [image, setImage] = useState(null); 
+  const [previewImage, setPreviewImage] = useState(""); 
+  const [previewTitleImage, setPreviewTitleImage] = useState(""); 
+  const [existingImage, setExistingImage] = useState(""); 
+  const [existingTitleImage, setExistingTitleImage] = useState(""); 
+  const [deskripsi, setDeskripsi] = useState(""); 
+  const [status, setStatus] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   // Fetch carousel data based on ID
   const getCarouselData = async () => {
     try {
-      const { data } = await axios.get(
-        `http://localhost:3000/api/carousel/${id}`
+      const { data } = await api.get(
+        `/carousel/${id}`
       );
       const carousel = data.data[0]; // Assuming it's an array with one item
       setCarauselName(carousel.carausel_name);
@@ -32,8 +32,8 @@ const FormUpdateCarousel = () => {
       setStatus(carousel.status);
       setExistingTitleImage(carousel.titleImage);
       setExistingImage(carousel.image);
-      setPreviewTitleImage(`http://localhost:3000/${carousel.titleImage}`);
-      setPreviewImage(`http://localhost:3000/${carousel.image}`);
+      setPreviewTitleImage(`${import.meta.env.VITE_API_URL_IMAGE}/${carousel.titleImage}`);
+      setPreviewImage(`${import.meta.env.VITE_API_URL_IMAGE}/${carousel.image}`);
     } catch (error) {
       console.error(error);
       Swal.fire(
@@ -92,8 +92,8 @@ const FormUpdateCarousel = () => {
 
     try {
       setSubmitting(true);
-      const response = await axios.put(
-        `http://localhost:3000/api/carousel/${id}`,
+      const response = await api.put(
+        `/carousel/${id}`,
         formData,
         {
           headers: {

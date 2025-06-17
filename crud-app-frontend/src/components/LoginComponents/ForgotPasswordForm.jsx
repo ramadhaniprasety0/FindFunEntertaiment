@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api/axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -16,7 +16,7 @@ const ForgotPasswordForm = () => {
     setError(null);
     
     try {
-      const response = await axios.post('http://localhost:3000/api/forgot-password', { email });
+      const response = await api.post('/forgot-password', { email });
       
       Swal.fire({
         title: 'Kode OTP Terkirim!',

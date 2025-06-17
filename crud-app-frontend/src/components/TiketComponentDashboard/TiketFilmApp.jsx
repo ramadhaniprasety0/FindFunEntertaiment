@@ -8,7 +8,8 @@ import {
   Tabs,
   Tab,
 } from "react-bootstrap";
-import axios from "axios";
+
+import api from "../../api/axios"; // Ganti import axios dengan api dari file axios.js
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { useNavigate } from "react-router-dom";
@@ -86,8 +87,8 @@ const TiketFilmApp = () => {
     }
 
     try {
-      await axios.put(
-        `http://localhost:3000/api/films/${filmId}/schedule/${selectedShowTime}`,
+      await api.put(
+        `/films/${filmId}/schedule/${selectedShowTime}`,
         {
           showtime: newShowTime,
         },
@@ -120,19 +121,15 @@ const TiketFilmApp = () => {
     }
 
     try {
-      await axios.post(
-        `http://localhost:3000/api/films/schedule`,
+      await api.post(
+        `/films/schedule`,
         {
           film_id: filmId,
           cinema_location_id: schedules.cinema_location_id,
           show_time: newShowTime,
           price_id: schedules.price_id,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        
       );
       Swal.fire("Sukses!", "Jam tayang baru berhasil ditambahkan.", "success");
       setNewShowTime("");
@@ -174,8 +171,8 @@ const TiketFilmApp = () => {
 
     if (result.isConfirmed) {
       try {
-        await axios.delete(
-          `http://localhost:3000/api/films/delete-schedule/${selectedShowTime}`,
+        await api.delete(
+          `/films/delete-schedule/${selectedShowTime}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -202,11 +199,11 @@ const TiketFilmApp = () => {
   const getDataTiket = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        "http://localhost:3000/api/tikets/bioskop"
+      const { data } = await api.get(
+        "/tikets/bioskop"
       );
-      const { data: paymentData } = await axios.get(
-        "http://localhost:3000/api/payment-user"
+      const { data: paymentData } = await api.get(
+        "/payment-user"
       );
       console.log(paymentData);
       setPaymentData(paymentData.data);
@@ -230,8 +227,8 @@ const TiketFilmApp = () => {
 
   const getShowtime = async (id, cinemaId) => {
     try {
-      const { data: data } = await axios.get(
-        `http://localhost:3000/api/films/${id}/schedule/${cinemaId}`
+      const { data: data } = await api.get(
+        `/films/${id}/schedule/${cinemaId}`
       );
       setSelectedSchedule(data.data || []);
       console.log(data.data);
@@ -349,7 +346,7 @@ const TiketFilmApp = () => {
                         <td>
                           {payment.Bukti ? (
                             <img
-                              src={`http://localhost:3000/${payment.Bukti}`}
+                              src={`${import.meta.env.VITE_API_URL_IMAGE}/${payment.Bukti}`}
                               alt="Bukti Pembayaran"
                               style={{ width: "50px" }}
                             />
@@ -423,7 +420,7 @@ const TiketFilmApp = () => {
                     <td>
                       {tiket.image ? (
                         <img
-                          src={`http://localhost:3000/${tiket.image}`}
+                          src={`${import.meta.env.VITE_API_URL_IMAGE}/${tiket.image}`}
                           style={{
                             width: "50px",
                             height: "50px",
@@ -526,7 +523,7 @@ const TiketFilmApp = () => {
                   <h5>Bukti Pembayaran</h5>
                   {selectedPayment.Bukti ? (
                     <img
-                      src={`http://localhost:3000/${selectedPayment.Bukti}`}
+                      src={`${import.meta.env.VITE_API_URL_IMAGE}/${selectedPayment.Bukti}`}
                       alt="Bukti Pembayaran"
                       className="img-fluid border rounded"
                       style={{ maxHeight: "300px" }}
@@ -562,9 +559,9 @@ const TiketFilmApp = () => {
                   }).then((result) => {
                     if (result.isConfirmed) {
                       // Kirim permintaan ke API untuk mengubah status menjadi REJECT
-                      axios
+                      api
                         .put(
-                          `http://localhost:3000/api/films/payment/${selectedPayment.id}/status`,
+                          `/films/payment/${selectedPayment.id}/status`,
                           { status: "REJECT" },
                           { headers: { Authorization: `Bearer ${token}` } }
                         )
@@ -609,9 +606,9 @@ const TiketFilmApp = () => {
                   }).then((result) => {
                     if (result.isConfirmed) {
                       // Kirim permintaan ke API untuk mengubah status menjadi ACCEPT
-                      axios
+                      api
                         .put(
-                          `http://localhost:3000/api/films/payment/${selectedPayment.id}/status`,
+                          `/films/payment/${selectedPayment.id}/status`,
                           { status: "ACCEPT" },
                           { headers: { Authorization: `Bearer ${token}` } }
                         )
@@ -768,23 +765,6 @@ const TiketFilmApp = () => {
                   </Form>
                 )}
               </div>
-              {/* <div className="col-md-6">
-                <div className="mb-3">
-                  <h5>Bukti Pembayaran</h5>
-                  {selectedPayment.Bukti ? (
-                    <img
-                      src={`http://localhost:3000/${selectedPayment.Bukti}`}
-                      alt="Bukti Pembayaran"
-                      className="img-fluid border rounded"
-                      style={{ maxHeight: "300px" }}
-                    />
-                  ) : (
-                    <div className="alert alert-warning">
-                      Belum ada bukti pembayaran
-                    </div>
-                  )}
-                </div>
-              </div> */}
             </div>
           )}
         </Modal.Body>

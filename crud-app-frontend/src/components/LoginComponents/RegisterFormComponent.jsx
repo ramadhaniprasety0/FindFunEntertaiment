@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api/axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -32,7 +32,7 @@ const RegisterForm = () => {
 
     try {
       // Panggil API register di backend
-      await axios.post('http://localhost:3000/api/register', {
+      await api.post('/register', {
         username,
         email,
         password

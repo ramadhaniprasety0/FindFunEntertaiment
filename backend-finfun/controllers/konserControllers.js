@@ -438,20 +438,6 @@ const konserControllers = {
     });
   },
 
-  getDetailPembayaran: (req, res) => {
-        const paymentId = req.params.paymentId;
-
-        Pembayaran.getDetailById(paymentId, (err, result) => {
-            if (err) {
-                return res.status(500).json({ success: false, message: 'Server error.' });
-            }
-            if (result.length === 0) {
-                return res.status(404).json({ success: false, message: 'Data pembayaran tidak ditemukan.' });
-            }
-            res.status(200).json({ success: true, data: result[0] });
-        });
-    },
-    
   createTiket: (req, res) => {
     const { nama_konser, deskripsi_acara, lokasi, tanggal, jenis_tiket } =
       req.body;

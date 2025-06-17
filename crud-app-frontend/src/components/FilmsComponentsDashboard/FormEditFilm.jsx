@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -35,9 +35,9 @@ const FormEditData = () => {
 
   const getDataFilms = async () => {
     try {
-      const { data } = await axios.get(`http://localhost:3000/api/films/${id}`);
+      const { data } = await api.get(`/films/${id}`);
 
-      const { data: data_artist } = await axios.get(`http://localhost:3000/api/films/${id}/artists`);
+      const { data: data_artist } = await api.get(`/films/${id}/artists`);
 
       if(data && data.data && data_artist && data_artist.data){
         const film = data.data;
@@ -60,8 +60,8 @@ const FormEditData = () => {
         setDirector(film.director);
         setExistingImage(film.image);
         setExistingPosterImage(film.image_poster);
-        setPreviewImage(`http://localhost:3000/${film.image}`);
-        setPreviewPosterImage(`http://localhost:3000/${film.image_poster}`);
+        setPreviewImage(`${import.meta.env.VITE_API_URL_IMAGE}/${film.image}`);
+        setPreviewPosterImage(`${import.meta.env.VITE_API_URL_IMAGE}/${film.image_poster}`);
       }
 
     } catch (error) {
@@ -72,7 +72,7 @@ const FormEditData = () => {
 
   const getArtists = async () => {
     try {
-        const { data } = await axios.get("http://localhost:3000/api/artists");
+        const { data } = await api.get("/artists");
         setArtists(data.data);
     } catch (error) {
         console.error(error);
@@ -169,10 +169,9 @@ const FormEditData = () => {
         console.log(`${key}:`, value);
       }
 
-      const response = await axios.put(`http://localhost:3000/api/films/${id}`, formData, {
+      const response = await api.put(`/films/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       });
       
@@ -188,27 +187,9 @@ const FormEditData = () => {
     }
   };
   
-
-
-  // useEffect(() => {
-  //   return () => {
-  //     if (previewImage && imageFile) {
-  //       URL.revokeObjectURL(previewImage);
-  //     }
-  //   };
-  // }, [previewImage, imageFile]);
   
   const currentYear = new Date().getFullYear();
 
-  // if (loading) {
-  //   return (
-  //     <div className="d-flex justify-content-center align-items-center" style={{ height: '50vh' }}>
-  //       <div className="spinner-border text-primary" role="status">
-  //         <span className="visually-hidden">Loading...</span>
-  //       </div>
-  //     </div>
-  //   );
-  // }
 
   return (
     <div className="container">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Button, Spinner, Modal, Form, Table, Card } from "react-bootstrap";
-import axios from "axios";
+import api from "../../api/axios";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 import { useNavigate } from "react-router-dom";
@@ -24,13 +24,8 @@ const KonserTiketJenisApp = () => {
   const getJenisTiket = async (konserId) => {
     try {
       setLoading(true);
-      const { data } = await axios.get(
-        `http://localhost:3000/api/konser/${konserId}/jenis-tiket`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const { data } = await api.get(
+        `/konser/${konserId}/jenis-tiket`,
       );
       setJenisTiket(data.data || []);
       setLoading(false);
@@ -48,7 +43,7 @@ const KonserTiketJenisApp = () => {
   // Mengambil daftar konser
   const getKonserList = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/api/konser");
+      const { data } = await api.get("/konser");
       setKonserList(data.data || []);
       // Jika ada konser, pilih konser pertama secara default
       if (data.data && data.data.length > 0) {
@@ -140,8 +135,8 @@ const KonserTiketJenisApp = () => {
     try {
       if (selectedJenisTiket) {
         // Edit jenis tiket
-        await axios.put(
-          `http://localhost:3000/api/konser/jenis-tiket/${selectedJenisTiket.id}`,
+        await api.put(
+          `/konser/jenis-tiket/${selectedJenisTiket.id}`,
           formData,
           {
             headers: {
@@ -153,17 +148,12 @@ const KonserTiketJenisApp = () => {
         Swal.fire("Berhasil!", "Jenis tiket berhasil diperbarui.", "success");
       } else {
         // Tambah jenis tiket baru
-        await axios.post(
-          "http://localhost:3000/api/konser/jenis-tiket",
+        await api.post(
+          `/konser/jenis-tiket`,
           {
             ...formData,
             konser_id: selectedKonserId,
           },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
         );
 
         Swal.fire("Berhasil!", "Jenis tiket berhasil ditambahkan.", "success");
@@ -196,8 +186,8 @@ const KonserTiketJenisApp = () => {
     }).then(async (result) => {
       if (result.isConfirmed) {
         try {
-          await axios.delete(
-            `http://localhost:3000/api/konser/jenis-tiket/${tiket.id}`,
+          await api.delete(
+            `/konser/jenis-tiket/${tiket.id}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -241,12 +231,12 @@ const KonserTiketJenisApp = () => {
           className="d-flex justify-content-between align-items-center"
         >
           <span>Manajemen Jenis Tiket Konser</span>
-          <button
-            className="btn btn-add"
+          <Button
+            variant="primary"
             onClick={() => navigate("/dashboard/konser")}
           >
             Kembali ke Daftar Tiket
-          </button>
+          </Button>
         </Card.Header>
         <Card.Body>
           <Form.Group className="mb-3">
@@ -267,9 +257,9 @@ const KonserTiketJenisApp = () => {
 
           {selectedKonserId && (
             <div className="d-flex justify-content-end mb-3">
-              <button className="btn btn-add" onClick={handleOpenAddModal}>
+              <Button variant="success" onClick={handleOpenAddModal}>
                 Tambah Jenis Tiket
-              </button>
+              </Button>
             </div>
           )}
 
@@ -300,29 +290,26 @@ const KonserTiketJenisApp = () => {
                   jenisTiket.map((tiket, index) => (
                     <tr key={tiket.id}>
                       <td className="text-center">{index + 1}</td>
-                      <td className="text-center">{tiket.jenis_tiket}</td>
+                      <td>{tiket.jenis_tiket}</td>
                       <td className="text-end">
                         {formatCurrency(tiket.harga)}
                       </td>
                       <td className="text-center">
-                      <div className="d-flex gap-2 justify-content-center">
-                        <Button variant="outline-secondary" size="sm" className="btn-update"
-                        
+                        <Button
+                          variant="warning"
+                          size="sm"
+                          className="me-2"
                           onClick={() => handleOpenEditModal(tiket)}
                         >
-                          
-                            <i className="bi bi-pencil text-secondary"></i>
-                       
-                        </Button >
-                        <Button variant="outline-danger" size="sm"
-                          className="btn-delete"
-                            onClick={() => handleDelete(tiket)}
-                          >
-                            <i className="bi bi-trash text-danger"></i>
-                         
+                          Edit
                         </Button>
-                      </div>
-                        
+                        <Button
+                          variant="danger"
+                          size="sm"
+                          onClick={() => handleDelete(tiket)}
+                        >
+                          Hapus
+                        </Button>
                       </td>
                     </tr>
                   ))
@@ -369,12 +356,12 @@ const KonserTiketJenisApp = () => {
             </Form.Group>
           </Modal.Body>
           <Modal.Footer>
-            <button className="btn btn-secondary" onClick={handleCloseModal}>
+            <Button variant="secondary" onClick={handleCloseModal}>
               Batal
-            </button>
-            <button className="btn btn-add" type="submit">
+            </Button>
+            <Button variant="primary" type="submit">
               Simpan
-            </button>
+            </Button>
           </Modal.Footer>
         </Form>
       </Modal>
