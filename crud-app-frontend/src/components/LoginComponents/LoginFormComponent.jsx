@@ -2,7 +2,7 @@ import { Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios"; // Ganti import axios dengan api dari file axios.js
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
@@ -16,16 +16,13 @@ const LoginForm = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:3000/api/login", {
+      const response = await api.post("/login", { // Hapus URL hardcoded, gunakan endpoint relatif
         email,
         password,
       });
       setError(null);
-
-      // Save JWT token
       localStorage.setItem("token", response.data.token);
 
-      // Save user role
       if (response.data.user && response.data.user.role) {
         localStorage.setItem("userRole", response.data.user.role);
         localStorage.setItem("username", response.data.user.username);
@@ -48,7 +45,7 @@ const LoginForm = () => {
           navigate("/");
         }
       });
-    } catch (err) {
+    } catch (error) {
       setError(err.response?.data?.message || "Username atau password salah");
     }
   };

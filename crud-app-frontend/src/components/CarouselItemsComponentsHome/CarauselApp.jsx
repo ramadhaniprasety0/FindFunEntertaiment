@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
+import api from "../../api/axios";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
-import Button from 'react-bootstrap/Button';
 
 const CaraouselApp = () => {
     const [carousel, setCarousel] = useState([]);
@@ -12,7 +11,7 @@ const CaraouselApp = () => {
     const getCarousel = async () => {
         try {
             setLoading(true);
-            const { data } = await axios.get("http://localhost:3000/api/carousel");
+            const { data } = await api.get("/carousel");
             setCarousel(data.data);
             setLoading(false);
         } catch (error) {
@@ -40,7 +39,7 @@ const CaraouselApp = () => {
         }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                await axios.delete(`http://localhost:3000/api/carousel/${id}`);
+                await api.delete(`/carousel/${id}`);
                 await Swal.fire('Terhapus!', 'Album berhasil dihapus.', 'success');
                 getCarousel(); 
             } catch (error) {
@@ -65,7 +64,7 @@ const CaraouselApp = () => {
             if (result.isConfirmed) {
                 try {
                     // Menggunakan PUT untuk mengupdate status
-                    const response = await axios.put(`http://localhost:3000/api/carousel/status/${id}`, { status: newStatus });
+                    const response = await api.put(`/carousel/status/${id}`, { status: newStatus });
                     
                     // Update status di UI tanpa reload
                     setCarousel(prevCarousel => 
@@ -87,16 +86,6 @@ const CaraouselApp = () => {
         });
     };
     
-    
-    
-
-    // const status = (status) => {
-    //     if (status === "active") {
-    //         return "Aktif";
-    //     } else {
-    //         return "Tidak Aktif";
-    //     }
-    // };
 
     const truncateText = (text, maxLength) => {
         if (!text) return "-";
@@ -140,7 +129,7 @@ const CaraouselApp = () => {
                                         <td>{carausels.carausel_name}</td>
                                         <td>{carausels.image ? (
                                             <img 
-                                            src={`http://localhost:3000/${carausels.image}`}
+                                            src={`${import.meta.env.VITE_API_URL_IMAGE}/${carausels.image}`}
                                             style={{width: "100%", height: "50px", objectFit: "cover"}} 
                                             alt={carausels.title}
                                             className="img-fluid"
@@ -158,7 +147,7 @@ const CaraouselApp = () => {
                                         </td>
                                         <td>{carausels.titleImage ? (
                                             <img 
-                                            src={`http://localhost:3000/${carausels.titleImage}`}
+                                            src={`${import.meta.env.VITE_API_URL_IMAGE}/${carausels.titleImage}`}
                                             style={{width: "50px", height: "50px", objectFit: "cover"}} 
                                             alt="Carausel Image" 
                                             className="img-thumbnail"
@@ -191,14 +180,8 @@ const CaraouselApp = () => {
 
                                         <td>
                                             <div className="d-flex gap-2 align-items-center">
-                                                <Button className="btn-update" variant="outline-secondary" size="sm">
-
-                                                <Link to={`/dashboard/editcarousel/${carausels.id}`} title="Edit Carausel"><i className="bi bi-pencil text-secondary"></i></Link>
-                                                </Button>
-                                                <Button className="btn-delete" variant="outline-danger" size="sm">
-
+                                                <Link to={`/dashboard/editcarousel/${carausels.id}`} title="Edit Carausel"><i className="bi bi-pencil text-primary"></i></Link>
                                                 <Link onClick={() => handleDelete(carausels.id, carausels.title)} title="Hapus Carausel"><i className="bi bi-trash text-danger"></i></Link>
-                                                </Button>
                                             </div>
                                         </td>              
                                     </tr>

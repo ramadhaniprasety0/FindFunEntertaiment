@@ -16,7 +16,7 @@ const DetailFilmComponent = ({ film, actors }) => {
         <div className="col-auto">
           <div className="poster-section text-center mb-4 mb-md-0">
             <img
-              src={`http://localhost:3000/${film.image}`}
+              src={`${import.meta.env.VITE_API_URL_IMAGE}/${film.image}`}
               alt={film.title}
               className="img-fluid rounded shadow-sm"
             />
@@ -113,7 +113,7 @@ const DetailFilmComponent = ({ film, actors }) => {
               <div key={index} className="col-md-2">
                 <div className="card text-center h-100">
                   <img
-                    src={`http://localhost:3000/${actor.image}`}
+                    src={`${import.meta.env.VITE_API_URL_IMAGE}/${actor.image}`}
                     alt={actor.name}
                     className="card-img-top"
                   />

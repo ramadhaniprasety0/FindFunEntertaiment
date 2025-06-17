@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Col } from 'react-bootstrap';
+import { API_URL_NEWS } from "../../api/axios";
 
 const NewsComponent = () => {
     const [hotsNews, setHotsNews] = useState([]);
 
-    const apiKey = '8b0ad9d768044bd0bd7e41748d1637a1'; 
-    const apiUrl = `https://newsapi.org/v2/top-headlines?category=entertainment&apiKey=${apiKey}`;
-
     const fetchNews = async () => {
         try {
-            const response = await fetch(apiUrl);
+            const response = await fetch(API_URL_NEWS);
             const data = await response.json();
             setHotsNews(data.articles.slice(0, 4)); 
         } catch (error) {

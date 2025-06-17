@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Button } from 'react-bootstrap';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import axios from 'axios';
+import api from '../../api/axios';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -33,7 +33,7 @@ const OTPVerificationForm = () => {
     setError(null);
     
     try {
-      const response = await axios.post('http://localhost:3000/api/verify-otp', { email, otp });
+      const response = await api.post('/verify-otp', { email, otp });
       
       // Simpan userId untuk digunakan di halaman reset password
       const userId = response.data.userId;

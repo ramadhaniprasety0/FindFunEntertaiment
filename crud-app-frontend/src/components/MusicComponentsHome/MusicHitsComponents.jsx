@@ -1,7 +1,7 @@
 // src/components/MusicHitsComponents.js
 import { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";
-import axios from "axios";
+import api from "../../api/axios";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -15,8 +15,8 @@ const MusicHitsComponents = () => {
     setLoading(true);
     setError(null);
     try {
-      const { data } = await axios.get(
-        "http://localhost:3000/api/music/?include=all"
+      const { data } = await api.get(
+        "/music/?include=all"
       );
 
       if (data && Array.isArray(data.data)) {
@@ -77,7 +77,7 @@ const MusicHitsComponents = () => {
           <Link to={`/music/${music.id}`} className="text-decoration-none">
             <div className="music-card">
               <img
-                src={`http://localhost:3000/${music.image}`}
+                src={`${import.meta.env.VITE_API_URL_IMAGE}/${music.image}`}
                 alt={music.title || "Gambar Musik"}
                 className="music-card-image"
                 onError={(e) => {

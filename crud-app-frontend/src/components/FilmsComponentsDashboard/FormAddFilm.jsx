@@ -1,12 +1,13 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/axios"; // Ganti import axios dengan api dari file axios.js
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 const FormAddFilm = () => {
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
+  // Token tidak perlu diambil manual karena sudah ditangani oleh axios.js
+  // const token = localStorage.getItem("token");
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -73,7 +74,7 @@ const FormAddFilm = () => {
 
   const getData = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/api/films");
+      const { data } = await api.get("/films");
       setDataFilms(data.data);
     } catch (error) {
       console.error(error);
@@ -82,7 +83,7 @@ const FormAddFilm = () => {
 
   const getArtists = async () => {
     try {
-        const { data } = await axios.get("http://localhost:3000/api/artists");
+        const { data } = await api.get("/artists");
         setArtists(data.data);
     } catch (error) {
         console.error(error);
@@ -146,10 +147,10 @@ const FormAddFilm = () => {
       for (let [key, value] of formData.entries()) {
         console.log(`${key}:`, value);
     }
-      await axios.post("http://localhost:3000/api/films", formData, {
+      await api.post("/films", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
+          
         },
       });
       
@@ -264,10 +265,10 @@ const FormAddFilm = () => {
                     {index > 0 && (
                     <button
                         type="button"
-                        className="btn btn-delete btn-sm ms-2 btn-outline-danger" 
+                        className="btn btn-danger btn-sm ms-2"
                         onClick={() => handleRemoveGenre(index)}
                     >
-                        <i className="bi bi-trash text-danger"></i>
+                        <i className="bi bi-trash"></i>
                     </button>
                     )}
                 </div>
@@ -313,10 +314,10 @@ const FormAddFilm = () => {
                   {index > 0 && (
                     <button
                       type="button"
-                      className="btn btn-delete btn-sm ms-2 btn-outline-danger" 
+                      className="btn btn-danger btn-sm ms-2"
                       onClick={() => handleRemoveArtist(index)}
                     >
-                      <i className="bi bi-trash text-danger"></i>
+                      <i className="bi bi-trash"></i>
                     </button>
                   )}
                 </div>

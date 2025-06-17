@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import api from "../../api/axios";
 import axios from "axios";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -7,9 +8,7 @@ import "sweetalert2/dist/sweetalert2.min.css";
 const FormEditArtist = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  const token = localStorage.getItem("token");
 
-  // State for form data
   const [name, setName] = useState("");
   const [bio, setBio] = useState("");
   const [birthDate, setBirthDate] = useState("");
@@ -34,8 +33,8 @@ const FormEditArtist = () => {
     const fetchArtistData = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get(
-          `http://localhost:3000/api/artists/${id}`
+        const { data } = await api.get(
+          `artists/${id}`
         );
 
         if (data && data.data) {
@@ -59,7 +58,7 @@ const FormEditArtist = () => {
           // Set image data
           if (artist.image) {
             setExistingImage(artist.image);
-            setPreviewImage(`http://localhost:3000/${artist.image}`);
+            setPreviewImage(`${import.meta.env.VITE_API_URL_IMAGE}/${artist.image}`);
           }
 
           // Set related music
@@ -134,10 +133,9 @@ const FormEditArtist = () => {
         formData.append("image", existingImage);
       }
 
-      await axios.put(`http://localhost:3000/api/artists/${id}`, formData, {
+      await api.put(`artists/${id}`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
-          Authorization: `Bearer ${token}`,
         },
       });
 

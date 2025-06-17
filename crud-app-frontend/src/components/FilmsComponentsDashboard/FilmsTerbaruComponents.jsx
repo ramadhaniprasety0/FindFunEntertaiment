@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import api from "../../api/axios";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -10,7 +10,7 @@ function FilmTerbaruComponents() {
   const getFilmsTebaru = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("http://localhost:3000/api/films");
+      const { data } = await api.get("/films");
       setFilms(data.data);
       setLoading(false);
     } catch (error) {
@@ -49,7 +49,7 @@ function FilmTerbaruComponents() {
                     <div className="rounded d-flex justify-content-center align-items-center me-3">
                 {film.image ? (
                     <img 
-                    src={`http://localhost:3000/${film.image}`} 
+                    src={`${import.meta.env.VITE_API_URL_IMAGE}/${film.image}`} 
                     alt={film.title}  
                     style={{ width: '38px', height: '38px' }}/>
                     ):(

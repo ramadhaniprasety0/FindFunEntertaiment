@@ -7,11 +7,12 @@ import {
   Col,
   Card,
   Alert,
+  Modal,
 } from "react-bootstrap";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { FaPlus, FaTrash } from "react-icons/fa";
+import api from "../../api/axios";
 
 const AddTiketKonser = () => {
   const navigate = useNavigate();
@@ -38,7 +39,7 @@ const AddTiketKonser = () => {
   useEffect(() => {
     const fetchArtists = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/artists");
+        const response = await api.get("/artists");
         setArtists(response.data.data);
       } catch (error) {
         console.error("Error fetching artists:", error);
@@ -48,7 +49,7 @@ const AddTiketKonser = () => {
 
     const fetchMusic = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/music");
+        const response = await api.get("/music");
         setMusic(response.data.data);
       } catch (error) {
         console.error("Error fetching music:", error);
@@ -179,9 +180,8 @@ const AddTiketKonser = () => {
         formDataToSend.append("image", formData.image);
       }
 
-      const response = await axios.post("http://localhost:3000/api/konser", formDataToSend, {
+      const response = await api.post("/konser", formDataToSend, {
         headers: {
-          Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
         },
       });
@@ -215,7 +215,7 @@ const AddTiketKonser = () => {
   return (
     <Container>
       <Card className="shadow-sm">
-        <Card.Header as="h5" className="text-white" style={{ backgroundColor: "#8e97fd" }}>
+        <Card.Header as="h5" className="bg-primary text-white">
           Tambah Tiket Konser
         </Card.Header>
         <Card.Body>
@@ -291,9 +291,9 @@ const AddTiketKonser = () => {
 
             <Row className="mb-3">
               <Col md={12} className="d-flex justify-content-end align-items-center mb-2">
-                <button className="btn btn-add" size="sm" onClick={handleAddArtist}>
+                <Button variant="success" size="sm" onClick={handleAddArtist}>
                   <FaPlus className="me-1" /> Tambah Artis
-                </button>
+                </Button>
               </Col>
               
               {selectedArtists.map((artistId, index) => (
@@ -319,12 +319,12 @@ const AddTiketKonser = () => {
                       </Form.Select>
                       {index > 0 && (
                         <Button
-                          variant="outline-danger"
+                          variant="danger"
                           size="sm"
-                          className="ms-2 btn-delete"
+                          className="ms-2"
                           onClick={() => handleRemoveArtist(index)}
                         >
-                          <i className="bi bi-trash text-danger"></i>
+                          <FaTrash />
                         </Button>
                       )}
                     </div>
@@ -338,15 +338,8 @@ const AddTiketKonser = () => {
               Tambahkan jenis tiket dan harganya
             </p>
 
-            <Col className="d-flex justify-content-end align-items-center mb-2">
-            
-            <button  onClick={addJenisTiket} className="mb-4 btn btn-add">
-              <FaPlus className="me-2" /> Tambah Jenis Tiket
-            </button>
-            </Col>
-
             {formData.jenis_tiket.map((tiket, index) => (
-              <Row key={index} className="mb-3 align-items-end ">
+              <Row key={index} className="mb-3 align-items-end">
                 <Col md={5}>
                   <Form.Group>
                     <Form.Label>Jenis Tiket {index + 1}</Form.Label>
@@ -378,28 +371,30 @@ const AddTiketKonser = () => {
                 </Col>
                 <Col md={2}>
                   <Button
-                    variant="outline-danger"
+                    variant="danger"
                     onClick={() => removeJenisTiket(index)}
-                    className="mb-0  btn-delete"
+                    className="mb-0"
                   >
-                    <i className="bi bi-trash text-danger"></i>
+                    <FaTrash />
                   </Button>
                 </Col>
               </Row>
             ))}
 
-           
+            <Button variant="success" onClick={addJenisTiket} className="mb-4">
+              <FaPlus className="me-2" /> Tambah Jenis Tiket
+            </Button>
 
-            <div className="d-flex justify-content-end gap-2 mb-1" style={{marginTop: "80px"}}>
-              <button
-                className="btn btn-secondary"
+            <div className="d-flex justify-content-between mt-4">
+              <Button
+                variant="secondary"
                 onClick={() => navigate("/dashboard/konser")}
               >
                 Kembali
-              </button>
-              <button className="btn btn-add" type="submit" disabled={loading}>
+              </Button>
+              <Button variant="primary" type="submit" disabled={loading}>
                 {loading ? "Menyimpan..." : "Simpan Tiket Konser"}
-              </button>
+              </Button>
             </div>
           </Form>
         </Card.Body>

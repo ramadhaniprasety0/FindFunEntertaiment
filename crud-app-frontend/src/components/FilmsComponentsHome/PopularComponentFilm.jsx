@@ -1,9 +1,10 @@
 import { Col, Spinner } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import api from "../../api/axios"; // Ganti import axios dengan api dari file axios.js
 import { useState, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
+
 const PopularComponentFilm = () => {
   const [filmsTerbaru, setFilmsTerbaru] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -11,7 +12,7 @@ const PopularComponentFilm = () => {
   const getPopularFilms = async () => {
     try {
       setLoading(true);
-      const {data} = await axios.get('http://localhost:3000/api/films');
+      const {data} = await api.get('/films'); // Hapus URL hardcoded, gunakan endpoint relatif
       setFilmsTerbaru(data.data.slice(0, 4));
       setLoading(false);
     } catch (error) {
@@ -33,6 +34,7 @@ const PopularComponentFilm = () => {
       </div>
     );
   }
+  
   return (
     <>
       {filmsTerbaru.map((films, index) => (
@@ -40,7 +42,7 @@ const PopularComponentFilm = () => {
           <Link to={`/films/detail/${films.id}`} className="text-decoration-none text-dark">
             <div className='card-film'>
               <div className='card-film-img'>
-                <img src={`http://localhost:3000/${films.image}`} alt={films.title} className='img-fluid mb-2' />
+                <img src={`${import.meta.env.VITE_API_URL_IMAGE}/${films.image}`} alt={films.title} className='img-fluid mb-2' /> {/* Gunakan variabel lingkungan */}
               </div>
               <div className='card-film-caption'>
                 <p className='heading'>{films.title}</p>

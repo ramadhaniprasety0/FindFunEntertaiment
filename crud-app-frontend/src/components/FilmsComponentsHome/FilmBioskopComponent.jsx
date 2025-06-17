@@ -1,6 +1,6 @@
 import { Row, Col, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios"; // Ganti import axios dengan api dari file axios.js
 import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -12,7 +12,7 @@ const FilmsBioskopComponent = () => {
   const getFilmsBioskop = async () => {
     try {
       setLoading(true);
-      const {data} = await axios.get("http://localhost:3000/api/films/bioskop/2");
+      const {data} = await api.get("/films/bioskop/2"); // Hapus URL hardcoded, gunakan endpoint relatif
       setFilmsBioskop(data.data.slice(0, 4));
       setLoading(false);
     } catch (error) {
@@ -49,9 +49,9 @@ const FilmsBioskopComponent = () => {
                 <div className="bioskop-film-img-col">
                   <div className="bioskop-image-wrapper h-100">
                     <img
-                      src={`http://localhost:3000/${films.image}`}
-                      alt={films.title}
-                      className="img-fluid bioskop-film-image"
+                      src={`${import.meta.env.VITE_API_URL_IMAGE}/${films.image}`} // Gunakan variabel lingkungan
+                      alt={films.title} 
+                      className="img-fluid" 
                     />
                   </div>
                 </div>

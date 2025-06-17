@@ -12,7 +12,7 @@ const DetailLagu = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`http://localhost:3000/api/popular/${id}`); 
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/popular/${id}`); 
         
         if (!response.ok) {
           if (response.status === 404) {
