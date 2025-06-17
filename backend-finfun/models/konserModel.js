@@ -4,7 +4,22 @@ const Konser = {
   // ===== OPERASI UNTUK TABEL KONSER =====
   getAll: (callback) => {
     // db.query('SELECT * FROM konser ORDER BY created_at DESC', callback);
-    db.query('SELECT k.*,  GROUP_CONCAT(js.jenis_tiket ORDER BY js.jenis_tiket) AS jenis_tiket FROM konser k JOIN konser_tiket_jenis js ON k.id = js.konser_id GROUP BY k.id  ORDER BY created_at DESC', callback);
+    db.query(`
+    SELECT
+      k.*,
+      GROUP_CONCAT(
+        CONCAT_WS(':', js.jenis_tiket, js.harga) 
+        ORDER BY js.jenis_tiket
+      ) AS info_tiket
+    FROM
+      konser k
+    JOIN
+      konser_tiket_jenis js ON k.id = js.konser_id
+    GROUP BY
+      k.id
+    ORDER BY
+      k.created_at DESC;
+  `, callback);
   },
   
   getById: (id, callback) => {
