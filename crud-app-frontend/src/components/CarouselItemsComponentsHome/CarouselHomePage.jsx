@@ -15,7 +15,11 @@ const CarouselComponent = () => {
         setLoading(false);
       } catch (error) {
         console.error(error);
-        Swal.fire("Gagal!", "Terjadi kesalahan saat mengambil data carousel.", "error");
+        Swal.fire(
+          "Gagal!",
+          "Terjadi kesalahan saat mengambil data carousel.",
+          "error"
+        );
         setLoading(false);
       }
     };
@@ -33,15 +37,24 @@ const CarouselComponent = () => {
 
   return (
     <Col lg={12}>
-      <Carousel indicators={true} controls={false} interval={5000} className="carousel-container p-4">
+      <Carousel
+        indicators={true}
+        controls={false}
+        interval={5000}
+        className="carousel-container"
+      >
         {data.map((item) => (
           <Carousel.Item key={item.id}>
-            <img className='caraousel-img-dashboard'
+            <img
+              className="caraousel-img-dashboard"
               src={`${import.meta.env.VITE_API_URL_IMAGE}/${item.image}`} // Gunakan variabel lingkungan
               alt="Carousel"
-              style={{ height: '433px', objectFit: 'cover' }} 
+              style={{ height: "433px", objectFit: "cover" }}
             />
-            <Carousel.Caption className="d-flex flex-column align-items-start gap-1 justify-content-center" style={{ textAlign: 'left' }}>
+            <Carousel.Caption
+              className="d-flex flex-column align-items-start gap-1 justify-content-center"
+              style={{ textAlign: "left" }}
+            >
               <img
                 src={`${import.meta.env.VITE_API_URL_IMAGE}/${item.titleImage}`} // Gunakan variabel lingkungan
                 alt="Carousel Title"

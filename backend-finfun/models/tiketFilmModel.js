@@ -8,11 +8,71 @@ const TiketFilm = {
     db.query(query, [venue_name, cinema_type, film_id], callback);
   },
 
+  // Fungsi untuk mendapatkan semua lokasi bioskop
+  getAllCinemaLocations: (callback) => {
+    const query = 'SELECT * FROM cinema_locations ORDER BY id DESC';
+    db.query(query, callback);
+  },
+
+  // Fungsi untuk mendapatkan lokasi bioskop berdasarkan ID
+  getCinemaLocationById: (id, callback) => {
+    const query = 'SELECT * FROM cinema_locations WHERE id = ?';
+    db.query(query, [id], (err, results) => {
+      if (err) {
+        return callback(err, null);
+      }
+      callback(null, results[0]);
+    });
+  },
+
+  // Fungsi untuk mengupdate lokasi bioskop
+  updateCinemaLocation: (id, venueData, callback) => {
+    const { venue_name, cinema_type, film_id } = venueData;
+    const query = 'UPDATE cinema_locations SET venue_name = ?, cinema_type = ?, film_id = ? WHERE id = ?';
+    db.query(query, [venue_name, cinema_type, film_id, id], callback);
+  },
+
+  // Fungsi untuk menghapus lokasi bioskop
+  deleteCinemaLocation: (id, callback) => {
+    const query = 'DELETE FROM cinema_locations WHERE id = ?';
+    db.query(query, [id], callback);
+  },
+
   // Fungsi untuk membuat data ticket price
   createTicketPrice: (priceData, callback) => {
     const { ticket_type, price, film_id, cinema_id } = priceData;
     const query = 'INSERT INTO ticket_prices (ticket_type, price, film_id, cinema_id) VALUES (?, ?, ?, ?)';
     db.query(query, [ticket_type, price, film_id, cinema_id], callback);
+  },
+
+  // Fungsi untuk mendapatkan semua harga tiket
+  getAllTicketPrices: (callback) => {
+    const query = 'SELECT * FROM ticket_prices ORDER BY id DESC';
+    db.query(query, callback);
+  },
+
+  // Fungsi untuk mendapatkan harga tiket berdasarkan ID
+  getTicketPriceById: (id, callback) => {
+    const query = 'SELECT * FROM ticket_prices WHERE id = ?';
+    db.query(query, [id], (err, results) => {
+      if (err) {
+        return callback(err, null);
+      }
+      callback(null, results[0]);
+    });
+  },
+
+  // Fungsi untuk mengupdate harga tiket
+  updateTicketPrice: (id, priceData, callback) => {
+    const { ticket_type, price, film_id, cinema_id } = priceData;
+    const query = 'UPDATE ticket_prices SET ticket_type = ?, price = ?, film_id = ?, cinema_id = ? WHERE id = ?';
+    db.query(query, [ticket_type, price, film_id, cinema_id, id], callback);
+  },
+
+  // Fungsi untuk menghapus harga tiket
+  deleteTicketPrice: (id, callback) => {
+    const query = 'DELETE FROM ticket_prices WHERE id = ?';
+    db.query(query, [id], callback);
   },
 
   // Fungsi untuk membuat data schedule

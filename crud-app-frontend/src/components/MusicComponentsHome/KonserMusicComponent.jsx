@@ -1,6 +1,7 @@
 // src/components/KonserTerbaruComponent.js
 import React, { useState, useEffect } from "react";
-import { Col, Spinner } from 'react-bootstrap'; // Import Spinner untuk loading
+import { Col, Spinner } from 'react-bootstrap';
+import api from "../../api/axios";
 import { Link } from "react-router-dom";
 
 const KonserTerbaruComponent = () => {
@@ -13,30 +14,22 @@ const KonserTerbaruComponent = () => {
       setLoading(true);
       setError(null);
       try {
-        // Ganti URL ini dengan URL lengkap ke backend Anda
-        const response = await fetch("http://localhost:3000/api/konser");
+        const response = await api.get("/konser");
 
-        if (!response.ok) {
+        if (!response.data) {
           throw new Error(`Gagal mengambil data, status: ${response.status}`);
         }
 
-        let data = await response.json();
+        const konserData = response.data.data || response.data;
 
-        // Cek jika data ada di dalam properti 'data', mirip contoh Anda
-        if (data && data.data && Array.isArray(data.data)) {
-          data = data.data;
-        } else if (!Array.isArray(data)) {
-          // Jika format tidak sesuai, lemparkan error
-          throw new Error("Format data dari API tidak sesuai.");
+        if (!Array.isArray(konserData)) {
+          throw new Error("Format data dari API tidak sesuai. Diharapkan array.");
         }
 
-        // 1. Urutkan data berdasarkan ID dari yang terbesar (terbaru)
-        const sortedKonser = data.sort((a, b) => b.id - a.id);
+        const sortedKonser = [...konserData].sort((a, b) => b.id - a.id);
         
-        // 2. Ambil hanya 4 data pertama dari hasil urutan
         const latestFourKonser = sortedKonser.slice(0, 4);
 
-        // 3. Simpan 4 data terbaru ke dalam state
         setKonser(latestFourKonser);
 
       } catch (e) {
@@ -48,9 +41,8 @@ const KonserTerbaruComponent = () => {
     };
 
     fetchKonserTerbaru();
-  }, []); // Dependensi kosong `[]` berarti efek ini hanya berjalan sekali
-
-  // Fungsi untuk membatasi deskripsi
+  }, []); 
+  
   const limitDescriptionWords = (deskripsi_acara, wordLimit) => {
     if (!deskripsi_acara) return "Deskripsi tidak tersedia.";
     const words = deskripsi_acara.split(' ');
@@ -91,12 +83,12 @@ const KonserTerbaruComponent = () => {
         return (
           <Col key={item.id} lg={3} md={6} sm={12} className='card-konser-musics p-2'>
             <Link 
-              to={`/konser/${item.id}`} 
+              to={`/music/konser/detail/${item.id}`} 
               className="text-decoration-none text-dark"
             >
               <div className='card-music'> 
                 <div className='card-music-img'>
-                  <img src={`http://localhost:3000/${item.image}`} alt={item.nama_konser} className='img-fluid mb-2'/>
+                  <img src={`${import.meta.env.VITE_API_URL_IMAGE}/${item.image}`} alt={item.nama_konser} className='img-fluid mb-2'/>
                 </div>
                 <div className='card-music-caption'>
                   <p className='heading'>{item.nama_konser}</p>

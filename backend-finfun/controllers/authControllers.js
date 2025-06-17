@@ -4,9 +4,7 @@ const jwt = require("jsonwebtoken"); // For generating JWT token
 const sgMail = require("@sendgrid/mail");
 
 // Konfigurasi SendGrid API Key
-sgMail.setApiKey(
-  "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"
-); // Ganti dengan API key SendGrid Anda
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const authController = {
   login: (req, res) => {
@@ -93,18 +91,19 @@ const authController = {
     });
   },
 
-  // Fungsi untuk membuat admin (hanya bisa diakses oleh admin yang sudah ada)
-  createAdmin: (req, res) => {
-    const { email, username, password } = req.body;
+  registerWithDashboard: (req, res) => {
+    const { email, username, password, role } = req.body;
+    let imagePath = null;
 
-    // Verifikasi bahwa yang membuat request adalah admin
-    if (req.user.role !== "admin") {
-      return res.status(403).json({
-        message: "Akses ditolak. Hanya admin yang dapat membuat admin baru.",
-      });
+    // Jika ada file yang diupload
+    if (req.file) {
+      imagePath = req.file.path;
     }
 
-    // Cek apakah email sudah terdaftar
+    console.log("Received registration data:", req.body);
+    console.log("Received file:", req.file);
+
+    // Mengecek apakah email sudah terdaftar
     User.findByEmail(email, (err, results) => {
       if (err) {
         return res.status(500).json({ message: "Server error" });
@@ -114,15 +113,18 @@ const authController = {
         return res.status(400).json({ message: "Email sudah terdaftar" });
       }
 
-      // Buat user baru dengan role admin
-      User.create(
-        { email, username, password, role: "admin" },
+      // Menambahkan pengguna baru ke dalam database dengan role default 'user'
+      User.createWithDashboard(
+        { email, username, password, role: role || "user", image: imagePath },
         (err, result) => {
           if (err) {
-            return res.status(500).json({ message: "Gagal mendaftar admin" });
+            return res
+              .status(500)
+              .json({ message: "Gagal mendaftar pengguna" });
           }
 
-          res.status(201).json({ message: "Admin berhasil didaftarkan" });
+          // Mengirimkan respons sukses
+          res.status(201).json({ message: "Pengguna berhasil didaftarkan" });
         }
       );
     });

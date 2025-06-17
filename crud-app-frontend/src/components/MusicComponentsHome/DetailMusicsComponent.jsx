@@ -66,10 +66,10 @@ const DetailLagu = () => {
         <div className="row">
           <div className="col-md-3 mb-4 mb-md-0">
             <img
-              src={music.image || 'https://placehold.co/300x300/EBF4FA/1F2937?text=No+Cover'}
+              src={music.image || `${import.meta.env.VITE_API_URL_IMAGE}/uploads/system/no-pictures.png`}
               alt={music.title || "Cover Lagu"}
               className="detail-cover-image"
-              onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/300x300/EBF4FA/1F2937?text=Error';}}
+              onError={(e) => { e.target.onerror = null; e.target.src=`${import.meta.env.VITE_API_URL_IMAGE}/uploads/system/no-pictures.png`}}
             />
           </div>
 
@@ -96,10 +96,10 @@ const DetailLagu = () => {
           <div className="col-md-3 detail-artis-box text-center">
             <div className="detail-artis-info d-flex align-items-center">
               <img
-                src={music.artistImage || 'https://placehold.co/80x80/EBF4FA/1F2937?text=Artis'}
+                src={music.artistImage || `${import.meta.env.VITE_API_URL_IMAGE}/uploads/system/no-pictures.png`}
                 alt={music.artist || "Foto Artis"}
                 className="detail-artis-image"
-                onError={(e) => { e.target.onerror = null; e.target.src='https://placehold.co/80x80/EBF4FA/1F2937?text=Error';}}
+                onError={(e) => { e.target.onerror = null; e.target.src=`${import.meta.env.VITE_API_URL_IMAGE}/uploads/system/no-pictures.png`}}
               />
               <div className="detail-artis-text ms-3 d-flex flex-column justify-content-between">
                 <p className="detail-artis-label mb-1">Artis</p>

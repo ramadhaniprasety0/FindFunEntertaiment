@@ -10,7 +10,7 @@ import {
   Container,
 } from "react-bootstrap";
 import { Link, useParams, useNavigate, Navigate } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
@@ -19,13 +19,6 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 const FormPembayaranFilmComponent = ({ film }) => {
   const { id } = useParams();
   const userId = localStorage.getItem("userId");
-  const token = localStorage.getItem("token");
-  console.log(token);
-  if (!token) {
-    // Token tidak ditemukan
-    console.error("Token tidak ditemukan.");
-    return;
-  }
 
   const [seats, setSeats] = useState([]);
   const [cinemaLocations, setCinemaLocations] = useState([]);
@@ -44,16 +37,16 @@ const FormPembayaranFilmComponent = ({ film }) => {
 
   const getDataSeat = async () => {
     try {
-      const {data: film_price} = await axios.get(`http://localhost:3000/api/films/${id}/tiket/price`);
+      const {data: film_price} = await api.get(`/films/${id}/tiket/price`);
       setCinemaLocations(film_price.data);
       if(selectedLocation){
-        const {data: schedule} = await axios.get(`http://localhost:3000/api/films/${id}/schedule/${selectedLocation}`);
+        const {data: schedule} = await api.get(`/films/${id}/schedule/${selectedLocation}`);
         setSchedule(schedule.data);
         console.log(price);
       }
 
       if(selectSeatSchedule){
-        const { data } = await axios.get(`http://localhost:3000/api/films/seats/${selectSeatSchedule}`);
+        const { data } = await api.get(`/films/seats/${selectSeatSchedule}`);
         setSeats(data.data);
       }
 
@@ -181,13 +174,9 @@ const FormPembayaranFilmComponent = ({ film }) => {
       };
     
       try {
-        const response = await axios.post(
-          "http://localhost:3000/api/films/beli/tiket", 
-          tiketData, {
-            headers:{
-              'Authorization': `Bearer ${token}`
-            }
-          }
+        const response = await api.post(
+          "/films/beli/tiket", 
+          tiketData, 
         );
 
     
@@ -214,7 +203,7 @@ const FormPembayaranFilmComponent = ({ film }) => {
     <Row className="pembayaran-film-wrapper my-4 mt-5">
       <Col md={5} lg={4} className="info-film-col mb-4 mb-md-0">
         <img
-          src={`http://localhost:3000/${film.image}`}
+          src={`${import.meta.env.VITE_API_URL_IMAGE}/${film.image}`}
           alt={film.title}
           className="info-film-poster rounded-4 img-fluid"
         />
@@ -326,7 +315,6 @@ const FormPembayaranFilmComponent = ({ film }) => {
                   {selectedSeats.size} Kursi Dipilih
                 </Col>
                 <Col xs={4} sm={3} className="text-end">
-                  {/* Anda bisa menampilkan detail harga per kursi jika mau */}
                 </Col>
               </Row>
               <Row className="summary-total mt-2">

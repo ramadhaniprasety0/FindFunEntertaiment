@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import api from "../api/axios";
 import ProfileComponent from "../components/LoginComponents/ProfileComponent";
 import { Container, Row, Spinner, Alert } from "react-bootstrap";
 
@@ -6,36 +7,29 @@ const ProfilePage = () => {
   // State untuk menyimpan data user yang sudah diambil
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
 
-  useEffect(() => {
-    // Ambil data dari localStorage saat komponen dimuat
+  const getProfile = async () => {
     try {
-      const token = localStorage.getItem('token');
-      const username = localStorage.getItem('username');
-      const email = localStorage.getItem('email');
-      const name = localStorage.getItem('name') || username; // Gunakan username jika nama lengkap tidak ada
-      const imageUrl = localStorage.getItem('image');
-      
-      // Jika token atau username tidak ada, anggap belum login
-      if (token && username) {
-        // Bentuk objek user yang akan dikirim sebagai prop
-        const userObject = {
-          username,
-          name,
-          email,
-          profilePic: (imageUrl && imageUrl !== 'null') ? `http://localhost:3000/${imageUrl}` : 'https://via.placeholder.com/80',
-          // Tambahkan data lain jika ada di localStorage
-          gender: localStorage.getItem('gender') || 'Pria', 
-          birthDate: localStorage.getItem('birth_date') || '2000-01-01',
-        };
-        setCurrentUser(userObject);
-      }
+      const {data} = await api.get(`/profile/${userId}`);
+      setCurrentUser(data.data);
     } catch (error) {
-      console.error("Gagal membaca data dari localStorage", error);
+      console.error("Error fetching user profile:", error);
+      throw error;
     } finally {
       setLoading(false);
     }
-  }, []); // Array kosong berarti effect ini hanya berjalan sekali saat mount
+  }
+
+  // Fungsi untuk menangani pembaruan profil
+  const handleProfileUpdate = (updatedUser) => {
+    setCurrentUser(updatedUser);
+  };
+
+  useEffect(() => {
+    getProfile();
+  }, []);
 
   if (loading) {
     return <Container className="text-center my-5"><Spinner /></Container>;
@@ -52,7 +46,7 @@ const ProfilePage = () => {
           <b>Edit Profile</b>
         </h1>
         <Row>
-          <ProfileComponent user={currentUser} />
+          <ProfileComponent user={currentUser} onProfileUpdate={handleProfileUpdate} />
         </Row>
       </Container>
     </div>

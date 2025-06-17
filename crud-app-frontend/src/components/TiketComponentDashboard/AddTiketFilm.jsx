@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
-import api from "../../api/axios";
+import {
+  Form,
+  Button,
+  Container,
+  Row,
+  Col,
+  Card,
+  Alert,
+} from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import api from "../../api/axios";
 
 const AddTiketFilm = () => {
   const navigate = useNavigate();
@@ -27,7 +35,7 @@ const AddTiketFilm = () => {
         setError("");
 
         // Fetch films
-        const filmsResponse = await axios.get(`${API_URL}/films`);
+        const filmsResponse = await api.get(`/films`);
         setFilms(filmsResponse.data.data);
       } catch (err) {
         console.error("Error fetching films:", err);
@@ -107,148 +115,131 @@ const AddTiketFilm = () => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h2 className="text-2xl font-bold mb-4">Tambah Jadwal Film Baru</h2>
+    <Container>
+      <Card className="shadow-sm">
+        <Card.Header as="h5" className="text-black" style={{backgroundColor:'#B1B7FE'}}>
+          Tambah Jadwal Film Baru
+        </Card.Header>
+        <Card.Body>
+          {error && <Alert variant="danger">{error}</Alert>}
 
-      {error && (
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
-          {error}
-        </div>
-      )}
+          <Form onSubmit={handleSubmit}>
+            <Row>
+              <Col md={12}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Film *</Form.Label>
+                  <Form.Select
+                    name="film_id"
+                    value={formData.film_id}
+                    onChange={handleChange}
+                    disabled={loading}
+                    required
+                  >
+                    <option value="">Pilih Film</option>
+                    {films.map((film) => (
+                      <option key={film.id} value={film.id}>
+                        {film.title}
+                      </option>
+                    ))}
+                  </Form.Select>
+                </Form.Group>
+              </Col>
+            </Row>
 
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
-      >
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="film_id"
-          >
-            Film
-          </label>
-          <select
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="film_id"
-            name="film_id"
-            value={formData.film_id}
-            onChange={handleChange}
-            disabled={loading}
-          >
-            <option value="">Pilih Film</option>
-            {films.map((film) => (
-              <option key={film.id} value={film.id}>
-                {film.title}
-              </option>
-            ))}
-          </select>
-        </div>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Nama Venue Bioskop *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="venue_name"
+                    value={formData.venue_name}
+                    onChange={handleChange}
+                    disabled={loading}
+                    placeholder="Contoh: CGV Grand Indonesia"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Tipe Bioskop *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="cinema_type"
+                    value={formData.cinema_type}
+                    onChange={handleChange}
+                    disabled={loading}
+                    placeholder="Contoh: Regular, IMAX, 4DX"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="venue_name"
-          >
-            Nama Venue Bioskop
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="venue_name"
-            type="text"
-            name="venue_name"
-            value={formData.venue_name}
-            onChange={handleChange}
-            disabled={loading}
-            placeholder="Contoh: CGV Grand Indonesia"
-          />
-        </div>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Tipe Tiket *</Form.Label>
+                  <Form.Control
+                    type="text"
+                    name="ticket_type"
+                    value={formData.ticket_type}
+                    onChange={handleChange}
+                    disabled={loading}
+                    placeholder="Contoh: Regular, VIP, Premium"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Harga Tiket (Rp) *</Form.Label>
+                  <Form.Control
+                    type="number"
+                    name="price"
+                    value={formData.price}
+                    onChange={handleChange}
+                    disabled={loading}
+                    placeholder="Contoh: 50000"
+                    min="0"
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="cinema_type"
-          >
-            Tipe Bioskop
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="cinema_type"
-            type="text"
-            name="cinema_type"
-            value={formData.cinema_type}
-            onChange={handleChange}
-            disabled={loading}
-            placeholder="Contoh: Regular, IMAX, 4DX"
-          />
-        </div>
+            <Row>
+              <Col md={6}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Jam Tayang *</Form.Label>
+                  <Form.Control
+                    type="time"
+                    name="show_time"
+                    value={formData.show_time}
+                    onChange={handleChange}
+                    disabled={loading}
+                    required
+                  />
+                </Form.Group>
+              </Col>
+            </Row>
 
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="ticket_type"
-          >
-            Tipe Tiket
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="ticket_type"
-            type="text"
-            name="ticket_type"
-            value={formData.ticket_type}
-            onChange={handleChange}
-            disabled={loading}
-            placeholder="Contoh: Regular, VIP, Premium"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="price"
-          >
-            Harga Tiket
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="price"
-            type="number"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            disabled={loading}
-            placeholder="Contoh: 50000"
-          />
-        </div>
-
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="show_time"
-          >
-            Jam Tayang
-          </label>
-          <input
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            id="show_time"
-            type="time"
-            name="show_time"
-            value={formData.show_time}
-            onChange={handleChange}
-            disabled={loading}
-          />
-        </div>
-
-        <div className="flex items-center justify-between">
-          <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? "Membuat..." : "Buat Jadwal"}
-          </button>
-        </div>
-      </form>
-    </div>
+            <div className="d-flex justify-content-between mt-4">
+              <Button
+                variant="secondary"
+                onClick={() => navigate("/dashboard/tiket/film")}
+              >
+                Kembali
+              </Button>
+              <Button variant="primary" type="submit" disabled={loading}>
+                {loading ? "Membuat..." : "Buat Jadwal"}
+              </Button>
+            </div>
+          </Form>
+        </Card.Body>
+      </Card>
+    </Container>
   );
 };
 

@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row } from "react-bootstrap";
 import CarouselComponentMusic from "../../components/CarouselItemsComponentsHome/CarouselHomePage";
 import PopularComponentMusic from "../../components/MusicComponentsHome/PopularComponentMusic";
-// import KonserMusicComponent from "../components/KonserMusicComponent";
+import KonserMusicComponent from "../../components/MusicComponentsHome/KonserMusicComponent";
 import NewsMusicComponent from "../../components/NewsComponentsHome/NewsTerbaruAllComponents";
 
 const MusicsPage = () => {
@@ -17,15 +17,17 @@ const MusicsPage = () => {
             <CarouselComponentMusic className="rounded-4" />
           </Row>
 
-          {/* <Row className="box-konser-musics p-3 m-1 mt-4">
+          <Row className="box-konser-musics p-3 m-1 mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-              <h1 className="text-black">Konser Mendatang</h1>
-              <a href="/Konser" className="btn btn-lihat-semua btn-sm">
+              <h1>
+                <b>Konser Mendatang</b>
+              </h1>
+              <a href="/music/konser" className="btn btn-lihat-semua btn-sm">
                 Lihat Semua
               </a>
             </div>
             <KonserMusicComponent limit={4} />
-          </Row> */}
+          </Row>
 
           <Row className="box-populer-musics p-3 m-1 mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
