@@ -64,8 +64,7 @@ const KonserMendatangComponent = ({ filterBy, sortByPrice }) => {
         const result = await response.json();
 
         if (result && result.data && Array.isArray(result.data)) {
-          // --- LANGKAH KUNCI: Proses data SETELAH fetch ---
-          // Tambahkan properti 'harga_terendah' dan 'harga_tertinggi' ke setiap item konser
+
           const augmentedData = result.data.map(item => {
             const hargaData = getHargaFromString(item.info_tiket);
             return {

@@ -91,7 +91,7 @@ const KonserTerbaruComponent = () => {
         return (
           <Col key={item.id} lg={3} md={6} sm={12} className='card-konser-musics p-2'>
             <Link 
-              to={`/konser/${item.id}`} 
+              to={`/music/konser/detail/${item.id}`} 
               className="text-decoration-none text-dark"
             >
               <div className='card-music'> 
