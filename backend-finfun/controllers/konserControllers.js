@@ -66,7 +66,7 @@ const konserControllers = {
   },
 
   create: (req, res) => {
-    const { nama_konser, deskripsi_acara, lokasi, tanggal } = req.body;
+    const { nama_konser, deskripsi_acara, lokasi, tanggal, maps_embed_url } = req.body;
 
     console.log(req.body);
     console.log(req.file);
@@ -94,11 +94,9 @@ const konserControllers = {
 
         for (const tiket of jenis_tiket) {
           if (!tiket.jenis_tiket || !tiket.harga) {
-            return res
-              .status(400)
-              .json({
-                error: "Setiap jenis tiket harus memiliki nama dan harga",
-              });
+            return res.status(400).json({
+              error: "Setiap jenis tiket harus memiliki nama dan harga",
+            });
           }
         }
       } catch (error) {
@@ -132,6 +130,7 @@ const konserControllers = {
       deskripsi_acara,
       lokasi,
       tanggal,
+      maps_embed_url, // Tambahkan maps_embed_url
       jenis_tiket,
       selected_artists,
     };
@@ -439,61 +438,48 @@ const konserControllers = {
   },
 
   createTiket: (req, res) => {
-    const { nama_konser, deskripsi_acara, lokasi, tanggal, jenis_tiket } =
-      req.body;
-    const user_id = req.user.id; // Dari middleware authenticateToken
-    const email = req.user.email; // Dari middleware authenticateToken
+    const {
+      user_id,
+      konser_id,
+      jenis_tiket,
+      total_harga,
+      nama_pembeli,
+      email_pembeli,
+    } = req.body;
+
+    console.log(req.body);
 
     // Validasi input
-    if (!nama_konser || !lokasi || !tanggal || !jenis_tiket) {
-      return res
-        .status(400)
-        .json({
-          error: "Nama konser, lokasi, tanggal, dan jenis tiket harus diisi",
-        });
+    if (
+      !konser_id ||
+      !jenis_tiket ||
+      !total_harga ||
+      !nama_pembeli ||
+      !email_pembeli
+    ) {
+      return res.status(400).json({
+        error: "Semua field harus diisi",
+      });
     }
 
-    let parsedJenisTiket;
+    // Parse jenis_tiket jika dalam bentuk string JSON
+    let parsedJenisTicket;
     try {
-      parsedJenisTiket =
+      parsedJenisTicket =
         typeof jenis_tiket === "string" ? JSON.parse(jenis_tiket) : jenis_tiket;
-
-      // Validasi format jenis_tiket
-      if (!Array.isArray(parsedJenisTiket) || parsedJenisTiket.length === 0) {
-        return res
-          .status(400)
-          .json({ error: "Format jenis tiket tidak valid atau kosong" });
-      }
-
-      for (const tiket of parsedJenisTiket) {
-        if (!tiket.jenis_tiket || !tiket.harga || !tiket.jumlah) {
-          return res
-            .status(400)
-            .json({
-              error:
-                "Setiap jenis tiket harus memiliki nama, harga, dan jumlah",
-            });
-        }
-      }
     } catch (error) {
-      return res.status(400).json({ error: "Format jenis tiket tidak valid" });
+      return res.status(400).json({ error: "Format jenis_tiket tidak valid" });
     }
 
     // Siapkan data tiket
     const tiketData = {
       user_id,
-      nama_konser,
-      deskripsi_acara,
-      email,
-      lokasi,
-      tanggal,
-      jenis_tiket: parsedJenisTiket,
+      konser_id,
+      jenis_tiket: parsedJenisTicket,
+      total_harga,
+      nama_pembeli,
+      email_pembeli,
     };
-
-    // Tambahkan poster jika ada
-    if (req.file) {
-      tiketData.poster = req.file.path.replace(/\\/g, "/");
-    }
 
     Konser.createTiket(tiketData, (err, result) => {
       if (err) {
@@ -511,7 +497,7 @@ const konserControllers = {
 
   // ===== CONTROLLER UNTUK PEMBAYARAN =====
   updatePaymentStatus: (req, res) => {
-    const paymentId = req.params.id;
+    const paymentId = req.params.paymentId;
     const { status } = req.body;
 
     if (!paymentId || isNaN(paymentId)) {
@@ -541,10 +527,17 @@ const konserControllers = {
     });
   },
 
+  // Fungsi untuk mengupdate bukti pembayaran (user only)
   updateBuktiPembayaran: (req, res) => {
-    const paymentId = req.params.id;
+    const { id, paymentId } = req.params;
 
-    if (!paymentId || isNaN(paymentId)) {
+    console.log("Request params:", req.params);
+    console.log("Request body:", req.body);
+    console.log("Request file:", req.file);
+    console.log("Request files:", req.files);
+    console.log("Content-Type:", req.headers["content-type"]);
+
+    if (!id || isNaN(id)) {
       return res.status(400).json({ error: "Invalid payment ID format" });
     }
 
@@ -552,10 +545,11 @@ const konserControllers = {
       return res.status(400).json({ error: "Bukti pembayaran harus diupload" });
     }
 
+    // Perbaikan: Pastikan path file konsisten menggunakan forward slash
     const buktiPembayaran = req.file.path.replace(/\\/g, "/");
 
-    // Cek apakah pembayaran ada
-    Konser.getPaymentById(paymentId, (err, result) => {
+    // Cek apakah pembayaran ada - perhatikan parameter null dihapus
+    Konser.getPaymentByIdBukti(id, paymentId, (err, result) => {
       if (err) {
         console.error("Error fetching payment:", err);
         return res.status(500).json({ error: "Failed to fetch payment" });
@@ -567,40 +561,50 @@ const konserControllers = {
 
       const oldBukti = result[0].bukti_pembayaran;
 
-      Konser.updateBuktiPembayaran(
-        paymentId,
-        buktiPembayaran,
-        (err, result) => {
-          if (err) {
-            console.error("Error updating bukti pembayaran:", err);
-            return res
-              .status(500)
-              .json({ error: "Failed to update bukti pembayaran" });
-          }
-
-          // Hapus bukti pembayaran lama jika ada
-          if (oldBukti && fs.existsSync(oldBukti)) {
-            fs.unlinkSync(oldBukti);
-          }
-
-          res.json({
-            success: true,
-            message: "Bukti pembayaran berhasil diupload",
-            data: { id: paymentId, bukti_pembayaran: buktiPembayaran },
-          });
+      Konser.updateBuktiPembayaran(id, paymentId, buktiPembayaran, (err, result) => {
+        if (err) {
+          console.error("Error updating bukti pembayaran:", err);
+          return res
+            .status(500)
+            .json({ error: "Failed to update bukti pembayaran" });
         }
-      );
+
+        // Hapus bukti pembayaran lama jika ada dan bukan file default
+        if (
+          oldBukti &&
+          fs.existsSync(oldBukti) &&
+          !oldBukti.includes("bukti_bayar_")
+        ) {
+          try {
+            fs.unlinkSync(oldBukti);
+          } catch (error) {
+            console.error("Error deleting old file:", error);
+            // Lanjutkan proses meskipun gagal menghapus file lama
+          }
+        }
+
+        res.json({
+          success: true,
+          message: "Bukti pembayaran berhasil diupload",
+          data: {
+            id: id,
+            bukti_pembayaran: buktiPembayaran,
+            url: `${req.protocol}://${req.get("host")}/${buktiPembayaran}`,
+          },
+        });
+      });
     });
   },
 
   getPaymentById: (req, res) => {
-    const paymentId = req.params.id;
+    const tiketId = req.params.id;
+    const paymentId = req.params.paymentId
 
-    if (!paymentId || isNaN(paymentId)) {
-      return res.status(400).json({ error: "Invalid payment ID format" });
+    if (!paymentId) {
+      return res.status(400).json({ error: "Payment ID is required" });
     }
 
-    Konser.getPaymentById(paymentId, (err, result) => {
+    Konser.getPaymentByIdBukti(tiketId, paymentId,  (err, result) => {
       if (err) {
         console.error("Error fetching payment:", err);
         return res.status(500).json({ error: "Failed to fetch payment" });

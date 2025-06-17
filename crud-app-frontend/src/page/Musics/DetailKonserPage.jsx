@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Container, Spinner, Alert, Button } from 'react-bootstrap';
 import DetailKonserComponent from '../../components/MusicComponentsHome/DetailKonserComponent';
+import api from '../../api/axios';
 
 const formatRupiah = (angka) => {
     if (angka === null || isNaN(angka)) return "N/A";
@@ -26,8 +27,8 @@ const DetailKonserPage = () => {
             setLoading(true);
             setError(null);
             try {
-                const response = await fetch(`http://localhost:3000/api/konser/${id}`);
-                const result = await response.json();
+                const response = await api.get(`/konser/${id}`);
+                const result = response.data;
                 
                 if (result.success && result.data) {
                     const apiData = result.data;
@@ -48,20 +49,20 @@ const DetailKonserPage = () => {
                     const formattedDetail = {
                         id: apiData.id,
                         title: apiData.nama_konser,
-                        posterImage: `http://localhost:3000/${apiData.image}`,
+                        posterImage: `${import.meta.env.VITE_API_URL_IMAGE}/${apiData.image}`,
                         priceDisplay: priceDisplayString,
-                        
-                        // --- PERUBAHAN 2: Ganti 'dateTime' dengan 'displayDate' ---
                         displayDate: formatDisplayDate(apiData.tanggal),
-
                         location: {
                             venueName: apiData.lokasi
                         },
-                        livePhotos: apiData.artists?.map(artist => `http://localhost:3000/${artist.image}`) || [],
+                        // Tambahkan koordinat
+                        maps_embed_url: apiData.maps_embed_url,
+                        
+                        livePhotos: apiData.artists?.map(artist => `${import.meta.env.VITE_API_URL_IMAGE}/${artist.image}`) || [],
                         venueInfo: apiData.deskripsi_acara,
                         artistInfo: {
                             name: apiData.artists?.[0]?.name || 'Artis',
-                            image: apiData.artists?.[0]?.image ? `http://localhost:3000/${apiData.artists[0].image}` : 'https://via.placeholder.com/100'
+                            image: apiData.artists?.[0]?.image ? `${import.meta.env.VITE_API_URL_IMAGE}/${apiData.artists[0].image}` : `${import.meta.env.VITE_API_URL_IMAGE}/uploads/system/no-pictures.png`
                         },
                     };
                     

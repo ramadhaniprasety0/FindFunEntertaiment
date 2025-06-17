@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import api from "../../api/axios"; // Ganti import axios dengan api dari file axios.js
 import Swal from "sweetalert2";
+import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 
 const ArtisApp = () => {
@@ -143,8 +144,8 @@ const ArtisApp = () => {
                               </td>
                               <td className="action-buttons">
                                  <div className="d-flex gap-2 align-items-center">
-                                    <Link to={`/dashboard/editartists/${artist.id}`} title="Edit Artist"><i className="bi bi-pencil text-primary"></i></Link>
-                                    <Link onClick={() => handleDeleteArtist(artist.id, artist.name)} title="Hapus Artist"><i className="bi bi-trash text-danger"></i></Link>
+                                    <Link to={`/dashboard/editartists/${artist.id}`} title="Edit Artist" className="btn btn-sm btn-outline-secondary text-secondary"><i className="bi bi-pencil text-secondary"></i></Link>
+                                    <Button variant="outline-danger" size="sm" onClick={() => handleDeleteArtist(artist.id, artist.name)} title="Hapus Artist"><i className="bi bi-trash"></i></Button>
                                  </div>
                               </td>
                            </tr>

@@ -260,7 +260,7 @@ updatePayTiket: (req, res) => {
   const {id} = req.params;
 
   console.log('Received film data:', req.body); 
-  console.log('Received files:', req.files);
+  console.log('Received files:', req.file); // Ubah dari req.files menjadi req.file
 
   if (!id || isNaN(id)) {
     return res.status(400).json({ error: 'Invalid ticket data format' });
@@ -277,8 +277,9 @@ updatePayTiket: (req, res) => {
     payment_id : req.body.payment_id,
   };
 
-  if (req.files?.image && req.files.image[0]) {
-    payment.image = req.files.image[0].path;
+  // Perbaikan untuk menangani file yang diupload
+  if (req.file) {
+    payment.image = req.file.path;
   } else {
     payment.image = req.body.image;
   }
@@ -698,7 +699,31 @@ deleteSchedule: (req, res) => {
         data: result
       });
     });
-  }
-};
+  },
+  getTicketsByUserId: (req, res) => {
+    const userId = req.params.userId;
+  
+    if (!userId || isNaN(userId)) {
+      return res.status(400).json({ error: "Invalid user ID format" });
+    }
+  
+    Film.getTicketsByUserId(userId, (err, results) => {
+      if (err) {
+        console.error("Error fetching film tickets:", err);
+        return res.status(500).json({ error: "Failed to fetch film tickets" });
+      }
+  
+      res.json({
+        success: true,
+        data: results,
+        count: results.length,
+      });
+    });
+  },
+}
+
+
 
 module.exports = filmControllers;
+
+

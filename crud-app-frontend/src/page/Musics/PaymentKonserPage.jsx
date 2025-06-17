@@ -3,14 +3,14 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Container, Spinner, Alert } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import Swal from "sweetalert2";
 import KonfirmasiPembayaranComponent from "../../components/MusicComponentsHome/PaymentKonserComponent";
 
 const KonfirmasiPembayaranPage = () => {
     // ID di sini adalah ID auto-increment dari tabel pembayaran, sesuai rute Anda
-    const { id } = useParams(); 
-    const token = localStorage.getItem("token");
+    const { id, paymentId } = useParams(); 
+    
     const navigate = useNavigate();
 
     const [paymentDetails, setPaymentDetails] = useState(null);
@@ -22,21 +22,20 @@ const KonfirmasiPembayaranPage = () => {
 
     useEffect(() => {
         const getPaymentDetails = async () => {
-            if (!id || !token) {
+            if (!id || !paymentId) {
                 setError("Sesi tidak valid atau ID pembayaran tidak ditemukan.");
                 setLoading(false);
                 return;
             }
             try {
-                // PERBAIKAN 1: URL GET disesuaikan dengan rute Anda
-                const response = await axios.get(`http://localhost:3000/api/konser/payment/${id}`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-
+                // Perbaikan: Menggunakan response langsung tanpa destructuring
+                const response = await api.get(`/konser/${id}/payment/${paymentId}`);
+                console.log(response.data);
                 if (response.data.success) {
                     setPaymentDetails(response.data.data);
+                    console.log(response.data.data);
                 } else {
-                    throw new Error(response.data.message);
+                    throw new Error(response.data.message || "Gagal mengambil data");
                 }
             } catch (err) {
                 setError(err.message || "Gagal mengambil detail pembayaran.");
@@ -45,7 +44,7 @@ const KonfirmasiPembayaranPage = () => {
             }
         };
         getPaymentDetails();
-    }, [id, token]);
+    }, [id, paymentId]); // Tambahkan paymentId sebagai dependency
 
     const handleCopyCode = (code) => {
         navigator.clipboard.writeText(code)
@@ -67,27 +66,47 @@ const KonfirmasiPembayaranPage = () => {
             return;
         }
 
+        console.log(selectedFile);
+
         const formData = new FormData();
-        // PERBAIKAN 2: Nama field diubah menjadi 'image' sesuai middleware multer Anda
         formData.append('image', selectedFile);
+        
+        // Debugging
+        console.log("FormData entries:");
+        for (let pair of formData.entries()) {
+            console.log(pair[0] + ': ' + pair[1]);
+        }
 
         try {
+            console.log("File yang akan dikirim:", selectedFile);
             Swal.fire({ title: 'Mengunggah...', didOpen: () => Swal.showLoading() });
             
-            // PERBAIKAN 3: URL PUT disesuaikan dengan rute Anda, menggunakan ID dari URL
-            const response = await axios.put(
-                `http://localhost:3000/api/konser/payment/${id}/bukti`,
+            const response = await api.put(
+                `/konser/${id}/payment-bukti/${paymentId}`,
                 formData,
-                { headers: { 'Authorization': `Bearer ${token}` } }
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
             );
 
             if (response.data.success) {
-                Swal.fire("Berhasil!", response.data.message || "Bukti pembayaran berhasil diunggah.", "success");
-                navigate("/tiket-saya");
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: "Bukti pembayaran berhasil diunggah. Tiket Anda akan segera diproses.",
+                    confirmButtonText: "Lihat Tiket Saya"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        navigate("/order-history");
+                    }
+                });
             } else {
                 throw new Error(response.data.message);
             }
         } catch (err) {
+            console.error("Error:", err);
             Swal.fire("Gagal!", err.response?.data?.message || "Terjadi kesalahan.", "error");
         }
     };

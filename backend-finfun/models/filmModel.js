@@ -434,6 +434,22 @@ const Film = {
     const searchPattern = `%${searchTerm}%`;
     db.query(query, [searchPattern, searchPattern], callback);
   },
+  getTicketsByUserId: (userId, callback) => {
+    const query = `SELECT 
+  tickets.*,
+  films.title AS film_title,
+  films.image,
+  schedules.show_time,
+  cinema_locations.venue_name AS cinema,
+  JSON_LENGTH(tickets.seats) AS seat_count
+  FROM tickets
+  JOIN films ON tickets.film_id = films.id
+  JOIN schedules ON tickets.schedule_id = schedules.id
+  JOIN cinema_locations ON schedules.cinema_location_id = cinema_locations.id
+  WHERE tickets.user_id = ?
+  ORDER BY tickets.created_at DESC`;
+    db.query(query, [userId], callback);
+  },
 
   // Get films by genre
   getByGenre: (genre, callback) => {
@@ -446,3 +462,6 @@ const Film = {
 };
 
 module.exports = Film;
+
+
+

@@ -1,13 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Row, Col, Button, Container } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import api from "../../api/axios";
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
 
 const PaymentFilmPage = () => {
   const { id, tiketId } = useParams();
-  const token = localStorage.getItem("token");
 
   const navigate = useNavigate();
 
@@ -30,13 +29,8 @@ const PaymentFilmPage = () => {
   // Fetch payment details
   const getPaymentData = async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:3000/api/film-payment/${id}/schedule/${tiketId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+      const response = await api.get(
+        `/film-payment/${id}/schedule/${tiketId}`,
       );
       const ticketData = response.data.data[0];
       setData(ticketData);
@@ -52,7 +46,8 @@ const PaymentFilmPage = () => {
 
       if (ticketData.image) {
         setExistingImage(image);
-        setPreviewImage(`http://localhost:3000/${ticketData.image}`);
+        setPreviewImage(`${import.meta.env.VITE_API_URL_IMAGE}/${ticketData.image}`);
+        // perbaiki kembali untuk contok ss pembayaran
       }
     } catch (error) {
       console.error(error);
@@ -138,7 +133,6 @@ const PaymentFilmPage = () => {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
 
-    // Pengaturan lokal Indonesia
     const options = {
       weekday: "long",
       day: "numeric",
@@ -153,9 +147,15 @@ const PaymentFilmPage = () => {
   const handleConfirmPayment = async (e) => {
     e.preventDefault();
 
+    if (!image) {
+      Swal.fire({
+        icon: "error",
+        title: "Bukti Pembayaran Diperlukan",
+        text: "Silakan upload bukti pembayaran terlebih dahulu.",
+      });
+      return;
+    }
   
-
-    // Send the payment data along with the proof of payment to the backend
     const formData = new FormData();
     formData.append("user_id", user_id);
     formData.append("nama", nama);
@@ -165,31 +165,36 @@ const PaymentFilmPage = () => {
     formData.append("film_id", film_id);
     formData.append("total_price", price);
     formData.append("payment_id", paymentCode);
-    formData.append("existingImage", existingImage);
+    
+    // Hapus baris ini karena menyebabkan masalah
+    // formData.append("existingImage", existingImage);
 
     if (image) {
       formData.append("image", image);
     }
 
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
-
     try {
-      const response = await axios.put(
-        `http://localhost:3000/api/films/${id}/tiket-payment`,
+      const response = await api.put(
+        `/films/${id}/tiket-payment`,
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`,
           },
         }
       );
 
       if (response.data.success) {
-        Swal.fire("Berhasil!", "Pembayaran Berhasil!", "success");
-        navigate(`/films}`);
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil!",
+          text: "Pembayaran Berhasil! Tiket Anda akan segera diproses.",
+          confirmButtonText: "Lihat Tiket Saya"
+        }).then((result) => {
+          if (result.isConfirmed) {
+            navigate(`/order-history`);
+          }
+        });
       } else {
         Swal.fire(
           "Gagal!",
@@ -203,9 +208,6 @@ const PaymentFilmPage = () => {
     }
   };
 
-  
-
-  // Render loading state
   if (loading) {
     return (
       <Container className="text-center">
@@ -214,7 +216,6 @@ const PaymentFilmPage = () => {
     );
   }
 
-  // If data is not available, render a fallback message
   if (!data) {
     return (
       <Container className="text-center">
@@ -234,7 +235,7 @@ const PaymentFilmPage = () => {
             <div className="d-flex gap-5 align-items-center justify-content-between">
               <div className="col-md-4">
                 <img
-                  src={`http://localhost:3000/${data.image}`}
+                  src={`${import.meta.env.VITE_API_URL_IMAGE}/${data.image}`}
                   alt="Film"
                   className="rounded-4"
                   style={{ width: "100%" }}

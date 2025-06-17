@@ -27,6 +27,7 @@ const AddTiketKonser = () => {
     deskripsi_acara: "",
     lokasi: "",
     tanggal: "",
+    maps_embed_url: "", // Ganti latitude dan longitude dengan maps_embed_url
     jenis_tiket: [
       { jenis_tiket: "VIP", harga: "" },
       { jenis_tiket: "GOLD", harga: "" },
@@ -164,12 +165,12 @@ const AddTiketKonser = () => {
     }
 
     try {
-      const token = localStorage.getItem("token");
       const formDataToSend = new FormData();
       formDataToSend.append("nama_konser", formData.nama_konser);
       formDataToSend.append("deskripsi_acara", formData.deskripsi_acara);
       formDataToSend.append("lokasi", formData.lokasi);
       formDataToSend.append("tanggal", formData.tanggal);
+      formDataToSend.append("maps_embed_url", formData.maps_embed_url); // Ganti latitude dan longitude dengan maps_embed_url
       formDataToSend.append(
         "jenis_tiket",
         JSON.stringify(formData.jenis_tiket)
@@ -271,6 +272,20 @@ const AddTiketKonser = () => {
                 required
               />
             </Form.Group>
+
+            <Form.Group className="mb-3">
+         <Form.Label>Google Maps Embed URL</Form.Label>
+      <Form.Control
+        type="text"
+        name="maps_embed_url"
+        value={formData.maps_embed_url}
+        onChange={handleChange}
+        placeholder="Contoh: https://www.google.com/maps/embed?pb=!1m18!..."
+      />
+      <Form.Text className="text-muted">
+        URL embed dari Google Maps untuk lokasi konser (opsional)
+      </Form.Text>
+    </Form.Group>
 
             <Form.Group className="mb-3">
               <Form.Label>Poster Konser</Form.Label>
@@ -404,3 +419,5 @@ const AddTiketKonser = () => {
 };
 
 export default AddTiketKonser;
+
+

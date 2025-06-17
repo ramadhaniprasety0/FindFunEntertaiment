@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
-import axios from 'axios'; // Import axios untuk panggilan API
-import Swal from 'sweetalert2'; // Import Swal untuk notifikasi error
+import api from '../../api/axios';
+import Swal from 'sweetalert2'; 
 import 'sweetalert2/dist/sweetalert2.min.css';
 
-// Ganti nama komponen yang diimpor agar sesuai
 import FormPembayaranMusicComponent from '../../components/MusicComponentsHome/FormPembayaranKonserComponent';
 
 const FormBayarPage = () => {
@@ -22,7 +21,7 @@ const FormBayarPage = () => {
         try {
             setLoading(true);
             // Panggil API untuk mendapatkan detail satu konser berdasarkan ID
-            const response = await axios.get(`http://localhost:3000/api/konser/${id}`);
+            const response = await api.get(`/konser/${id}`);
             
             if (response.data.success) {
                 // Simpan data konser ke dalam state

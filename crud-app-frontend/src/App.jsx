@@ -16,11 +16,16 @@ import DetailFilmPage from "./page/Films/DetailFilmsPage";
 import ReviewFilmsPage from "./page/Films/ReviewFilmsPage";
 import FormTiketFilm from "./page/Films/FormTiketFilmPage";
 import PaymentFilmPage from "./page/Films/PaymentFilmPage";
+import DetailKonserPage from "./page/Musics/DetailKonserPage";
+import FormTiketKonser from "./page/Musics/FormTiketKonserPage";
+import PaymentKonserPage from "./page/Musics/PaymentKonserPage";
 import PopulerMusicsPage from "./page/Musics/PopulerMusicsPage";
 import KonserMusicsPage from "./page/Musics/KonserMusicsPage";
 import ForgotPasswordPage from "./page/ForgotPasswordPage";
 import OTPVerificationPage from "./page/OTPVerificationPage";
 import ResetPasswordPage from "./page/ResetPasswordPage";
+import ProfilePage from "./page/ProfilePage";
+import OrderHistoryPage from "./page/OrderHistoryPage";
 
 // import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,6 +53,18 @@ function App() {
             <Route path="/payment-tiket/:id/schedule/:tiketId" element={<PaymentFilmPage />} />
             {/* Rute untuk review film */}
             <Route path="/film/review/:id" element={<ReviewFilmsPage />} />
+
+            {/* Route Untuk Konser */}
+            <Route path="/music/konser/detail/:id" element={< DetailKonserPage />} />
+            <Route path="/music/konser/detail/:id/form" element={< FormTiketKonser />} />
+            <Route
+              path="/payment-tiket/:id/konser/:paymentId"
+              element={<PaymentKonserPage />}
+            />
+
+            {/* User Profile */}
+            <Route path="/profile" element={<ProfilePage />} />
+            <Route path="/order-history" element={<OrderHistoryPage />} />
           </Route>
         </Route>
 
@@ -63,6 +80,8 @@ function App() {
             <Route path="/dashboard/*" element={<Dashboard />} />
         </Route>
 
+        // Tambahkan route ini di dalam komponen Routes
+        
       </Routes>
       
     </div>

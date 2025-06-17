@@ -1,12 +1,8 @@
-// src/components/MusicComponentsHome/KonserMendatangComponent.js
-
 import React, { useState, useEffect, useMemo } from "react";
 import { Col, Image, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-//======================================================================
-// ===== BAGIAN FUNGSI BANTUAN (HELPER FUNCTIONS) =====
-//======================================================================
+import api from "../../api/axios";
 
 const formatTanggal = (tanggalISO) => {
   if (!tanggalISO) return "";
@@ -23,10 +19,6 @@ const formatRupiah = (angka) => {
   }).format(angka);
 };
 
-/**
- * Fungsi baru yang lebih efisien: Mengambil string dan mengembalikan objek
- * berisi harga terendah dan tertinggi dalam bentuk ANGKA.
- */
 const getHargaFromString = (infoTiketString) => {
   if (!infoTiketString || typeof infoTiketString !== 'string') {
     return { harga_terendah: null, harga_tertinggi: null };
@@ -46,10 +38,6 @@ const getHargaFromString = (infoTiketString) => {
 };
 
 
-//======================================================================
-// ===== KOMPONEN UTAMA =====
-//======================================================================
-
 const KonserMendatangComponent = ({ filterBy, sortByPrice }) => {
   const [konser, setKonser] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -60,18 +48,16 @@ const KonserMendatangComponent = ({ filterBy, sortByPrice }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch("http://localhost:3000/api/konser");
-        const result = await response.json();
+        const response = await api.get("/konser");
+        const result = response.data;
 
         if (result && result.data && Array.isArray(result.data)) {
-          // --- LANGKAH KUNCI: Proses data SETELAH fetch ---
-          // Tambahkan properti 'harga_terendah' dan 'harga_tertinggi' ke setiap item konser
           const augmentedData = result.data.map(item => {
             const hargaData = getHargaFromString(item.info_tiket);
             return {
-              ...item, // Salin semua properti asli
-              harga_terendah: hargaData.harga_terendah, // Tambah properti baru
-              harga_tertinggi: hargaData.harga_tertinggi, // Tambah properti baru
+              ...item, 
+              harga_terendah: hargaData.harga_terendah, 
+              harga_tertinggi: hargaData.harga_tertinggi, 
             };
           });
           setKonser(augmentedData);
@@ -89,8 +75,6 @@ const KonserMendatangComponent = ({ filterBy, sortByPrice }) => {
     fetchKonserMendatang();
   }, []);
 
-  // Logika useMemo untuk filter & sortir sekarang menjadi sangat efisien
-  // karena bekerja dengan angka yang sudah diproses, bukan string.
   const processedKonser = useMemo(() => {
     let data = [...konser];
 
@@ -123,7 +107,7 @@ const KonserMendatangComponent = ({ filterBy, sortByPrice }) => {
               <div className="konser-item-card new-layout">
                 {/* ... Isi Kartu (Gambar, Judul, dll) ... */}
                 <div className="konser-image-section">
-                  <Image src={`http://localhost:3000/${item.image}`} alt={item.nama_konser} className="konser-item-image"/>
+                  <Image src={`${import.meta.env.VITE_API_URL_IMAGE}/${item.image}`} alt={item.nama_konser} className="konser-item-image"/>
                 </div>
                 <div className="konser-details-section">
                   <div className="konser-detail-content-wrapper">

@@ -127,18 +127,9 @@ const TiketKonserApp = () => {
       // Mengambil data konser
       const { data } = await api.get("/konser");
       // Mengambil data pembayaran
-      const { data: paymentData } = await api.get("/konser/payments/all", {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const { data: paymentData } = await api.get("/konser/payments/all");
       console.log(paymentData);
       setPaymentData(paymentData.data || []);
-      // Filter data berdasarkan status WAITING secara default
-      const filteredData = paymentData.data
-        ? paymentData.data.filter((payment) => payment.status === statusFilter)
-        : [];
-      setFilteredPaymentData(filteredData);
       setTikets(data.data);
       setLoading(false);
     } catch (error) {
@@ -364,14 +355,14 @@ const TiketKonserApp = () => {
                     <td>
                       <div className="d-flex gap-2">
                         <Button
-                          variant="warning"
+                          variant="outline-secondary"
                           size="sm"
                           onClick={() => handleOpenEditModal(tiket)}
                         >
                           <i className="bi bi-pencil-fill"></i>
                         </Button>
                         <Button
-                          variant="danger"
+                          variant="outline-danger"
                           size="sm"
                           onClick={() => handleDelete(tiket)}
                         >
@@ -405,7 +396,7 @@ const TiketKonserApp = () => {
                       </tr>
                       <tr>
                         <td className="fw-bold">Nama</td>
-                        <td>{selectedPayment.nama_user || "-"}</td>
+                        <td>{selectedPayment.nama || "-"}</td>
                       </tr>
                       <tr>
                         <td className="fw-bold">Email</td>
@@ -442,7 +433,7 @@ const TiketKonserApp = () => {
                   <h5>Bukti Pembayaran</h5>
                   {selectedPayment.bukti_pembayaran ? (
                     <img
-                      src={`/${selectedPayment.bukti_pembayaran}`}
+                      src={`${import.meta.env.VITE_API_URL_IMAGE}/${selectedPayment.bukti_pembayaran}`}
                       alt="Bukti Pembayaran"
                       className="img-fluid border rounded"
                       style={{ maxHeight: "300px" }}
@@ -478,11 +469,11 @@ const TiketKonserApp = () => {
                   }).then((result) => {
                     if (result.isConfirmed) {
                       // Kirim permintaan ke API untuk mengubah status menjadi REJECT
+                      console.log(selectedPayment.payment_id);
                       api
                         .put(
                           `/konser/payment/${selectedPayment.id}/status`,
-                          { status: "REJECT" },
-                          { headers: { Authorization: `Bearer ${token}` } }
+                          { status: "REJECT" }
                         )
                         .then((response) => {
                           Swal.fire(

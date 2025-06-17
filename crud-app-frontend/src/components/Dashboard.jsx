@@ -12,6 +12,8 @@ import "sweetalert2/dist/sweetalert2.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import { Modal, Form, Button, Image } from "react-bootstrap";
+import axios from "axios";
 
 // Login
 import Login from "./LoginComponents/LoginFormComponent";
@@ -23,7 +25,7 @@ import FormAddCarousel from "./CarouselItemsComponentsHome/FormAddCarousel";
 import FormEditCarousel from "./CarouselItemsComponentsHome/FormEditCarousel";
 
 // Films
-import AppCRUD from "./FilmsComponentsDashboard/FilmsApp";
+import TiketApp from "./FilmsComponentsDashboard/FilmsApp";
 import FormAddData from "./FilmsComponentsDashboard/FormAddFilm";
 import FormEditData from "./FilmsComponentsDashboard/FormEditFilm";
 import FilmsTerbaruComponents from "./FilmsComponentsDashboard/FilmsTerbaruComponents";
@@ -45,13 +47,19 @@ import FormAddAlbum from "./AlbumsComponentsDashboard/FormAddAlbum";
 import FormEditAlbum from "./AlbumsComponentsDashboard/FormEditAlbum";
 
 // Tiket Managemen
-import TiketApp from "./TiketComponentDashboard/TiketFilmApp";
+import TiketFilmBioskop from "./TiketComponentDashboard/TiketFilmApp";
 import TiketKonserApp from "./TiketComponentDashboard/TiketKonserApp";
 import AddTiketKonser from "./TiketComponentDashboard/AddTiketKonser";
 import AddTiketFilm from "./TiketComponentDashboard/AddTiketFilm";
 import KonserTiketJenisApp from "./TiketComponentDashboard/KonserTiketJenisApp";
+import KelolaTiketFilmManagement from "./TiketComponentDashboard/FilmTiketJenis";
 
-import axios from "axios";
+// User Findfun Management
+import UsersFindFunApp from "./UsersComponentsDashboard/UsersFindFunApp";
+// import FormAddUser from "./UserComponentDashboard/FormAddUser";
+// import FormEditUser from "./UserComponentDashboard/FormEditUser";
+
+import api from "../api/axios";
 
 // Komponen baru untuk dashboard
 const Dashboard = () => {
@@ -65,7 +73,7 @@ const Dashboard = () => {
 
   function isMenuActive(pathname, menu) {
     const regex = new RegExp(
-      `^/dashboard/(${menu}($|/)|add${menu}|edit${menu}/)`
+      `^/dashboard/(${menu}($|/)|add${menu}|jenis${menu}|edit${menu}/)`
     );
     return regex.test(pathname);
   }
@@ -237,7 +245,7 @@ const Dashboard = () => {
             {!collapsed && "Data Artist"}
           </Link>
           <Link
-            to="/dashboard/tiket-film"
+            to="/dashboard/tiket/film"
             className={`nav-link text-start text-white border-0 mb-2 ${
               isMenuActive(location.pathname, "tiket") ? "slider-active" : ""
             }`}
@@ -377,12 +385,19 @@ const Dashboard = () => {
             <Route path="/addalbums" element={<FormAddAlbum />} />
             <Route path="/editalbums/:id" element={<FormEditAlbum />} />
             {/* Route Tiket Film */}
-            <Route path="/tiket-film" element={<TiketFilmManagement />} />
-            <Route path="/add-tiket/film" element={<AddTiketFilm />}/>
+            <Route path="/tiket/film" element={<TiketFilmManagement />} />
+            <Route path="/addtiket/film" element={<AddTiketFilm />} />
+            <Route
+              path="/jenistiket/film"
+              element={<KelolaTiketFilmManagement />}
+            />
             {/* Route Tiket Konser */}
             <Route path="/konser" element={<TiketKonserManagement />} />
-            <Route path="/add-tiket/konser" element={<AddTiketKonser />} />
-            <Route path="/konser/jenis-tiket" element={<KonserTiketJenisManagement />} />
+            <Route path="/addkonser" element={<AddTiketKonser />} />
+            <Route
+              path="/konser/jenis-tiket"
+              element={<KonserTiketJenisManagement />}
+            />
             {/* Route User */}
             <Route path="/users" element={<UsersManagement />} />
             <Route path="/settings" element={<SettingsPage />} />
@@ -399,9 +414,7 @@ const DashboardHome = () => {
   const [stats, setStats] = useState({
     totalFilms: 0,
     totalMusic: 0,
-    totalUsers: 842,
-    highestRating: 4.9,
-    releasedThisMonth: 12,
+    totalUsers: 0,
   });
   const [loading, setLoading] = useState(true);
 
@@ -410,7 +423,7 @@ const DashboardHome = () => {
     const fetchFilmCount = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get("http://localhost:3000/api/films");
+        const { data } = await api.get("/films");
 
         // Update stats with actual film count
         setStats((prevStats) => ({
@@ -428,7 +441,7 @@ const DashboardHome = () => {
     const fetchMusicCount = async () => {
       try {
         setLoading(true);
-        const { data } = await axios.get("http://localhost:3000/api/music");
+        const { data } = await api.get("/music");
 
         setStats((prevStats) => ({
           ...prevStats,
@@ -442,14 +455,32 @@ const DashboardHome = () => {
       }
     };
 
+    const fetchUserCount = async () => {
+      try {
+        setLoading(true);
+        const { data } = await api.get("/users");
+
+        setStats((prevStats) => ({
+          ...prevStats,
+          totalUsers: data.data.length,
+        }));
+
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching User count:", error);
+        setLoading(false);
+      }
+    };
+
     fetchFilmCount();
     fetchMusicCount();
+    fetchUserCount();
   }, []);
 
   return (
     <div>
       <div className="row mb-4">
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="card border-0 shadow-sm mb-3">
             <div className="card-body">
               <div className="d-flex align-items-center">
@@ -464,7 +495,7 @@ const DashboardHome = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="card border-0 shadow-sm mb-3">
             <div className="card-body">
               <div className="d-flex align-items-center">
@@ -479,7 +510,7 @@ const DashboardHome = () => {
             </div>
           </div>
         </div>
-        <div className="col-md-3">
+        <div className="col-md-4">
           <div className="card border-0 shadow-sm mb-3">
             <div className="card-body">
               <div className="d-flex align-items-center">
@@ -488,22 +519,7 @@ const DashboardHome = () => {
                 </div>
                 <div>
                   <h6 className="text-muted mb-1">Total Pengguna</h6>
-                  <h4 className="mb-0">842</h4>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-md-3">
-          <div className="card border-0 shadow-sm mb-3">
-            <div className="card-body">
-              <div className="d-flex align-items-center">
-                <div className="bg-info bg-opacity-10 p-3 rounded me-3">
-                  <i className="bi bi-calendar-check text-info fs-4"></i>
-                </div>
-                <div>
-                  <h6 className="text-muted mb-1">Dirilis Bulan Ini</h6>
-                  <h4 className="mb-0">12</h4>
+                  <h4 className="mb-0">{stats.totalUsers}</h4>
                 </div>
               </div>
             </div>
@@ -609,7 +625,7 @@ const FilmsManagement = () => {
       <div className="card border-0 shadow-sm">
         <div className="card-body">
           <div className="table-responsive">
-            <AppCRUD />
+            <TiketApp />
           </div>
         </div>
       </div>
@@ -707,15 +723,15 @@ const TiketFilmManagement = () => {
         <h4>Manajemen Tiket Bioskop </h4>
         <div>
           <button
-              className="btn btn-secondary me-2"
-              onClick={() => navigate("/dashboard/konser/jenis-tiket")}
-            >
-              <i className="bi bi-tags me-2"></i>
-              Kelola Jenis Tiket 
+            className="btn btn-secondary me-2"
+            onClick={() => navigate("/dashboard/jenistiket/film")}
+          >
+            <i className="bi bi-tags me-2"></i>
+            Kelola Tiket Bioskop
           </button>
           <button
             className="btn btn-add"
-            onClick={() => navigate("/dashboard/add-tiket/film")}
+            onClick={() => navigate("/dashboard/addtiket/film")}
           >
             <i className="bi bi-plus-circle me-2"></i>
             Tambah Tiket
@@ -726,7 +742,7 @@ const TiketFilmManagement = () => {
       <div className="card border-0 shadow-sm">
         <div className="card-body">
           <div className="table-responsive">
-            <TiketApp />
+            <TiketFilmBioskop />
           </div>
         </div>
       </div>
@@ -751,7 +767,7 @@ const TiketKonserManagement = () => {
           </button>
           <button
             className="btn btn-add"
-            onClick={() => navigate("/dashboard/add-tiket/konser")}
+            onClick={() => navigate("/dashboard/addkonser")}
           >
             <i className="bi bi-plus-circle me-2"></i>
             Tambah Tiket
@@ -795,114 +811,14 @@ const UsersManagement = () => {
     <div>
       <div className="d-flex justify-content-between align-items-center mb-4">
         <h4>Daftar Pengguna FindFun</h4>
-        <button className="btn btn-primary">
-          <i className="bi bi-plus-circle me-2"></i>
-          Tambah Pengguna
-        </button>
       </div>
 
       <div className="card border-0 shadow-sm">
         <div className="card-body">
           <div className="table-responsive">
-            <table className="table table-hover">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Nama</th>
-                  <th scope="col">Email</th>
-                  <th scope="col">Role</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Aksi</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Budi Santoso</td>
-                  <td>budi@example.com</td>
-                  <td>Admin</td>
-                  <td>
-                    <span className="badge bg-success">Aktif</span>
-                  </td>
-                  <td>
-                    <button className="btn btn-sm btn-light me-2">
-                      <i className="bi bi-pencil"></i>
-                    </button>
-                    <button className="btn btn-sm btn-light">
-                      <i className="bi bi-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td>Ani Wijaya</td>
-                  <td>ani@example.com</td>
-                  <td>Editor</td>
-                  <td>
-                    <span className="badge bg-success">Aktif</span>
-                  </td>
-                  <td>
-                    <button className="btn btn-sm btn-light me-2">
-                      <i className="bi bi-pencil"></i>
-                    </button>
-                    <button className="btn btn-sm btn-light">
-                      <i className="bi bi-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">3</th>
-                  <td>Dina Permata</td>
-                  <td>dina@example.com</td>
-                  <td>Staff</td>
-                  <td>
-                    <span className="badge bg-success">Aktif</span>
-                  </td>
-                  <td>
-                    <button className="btn btn-sm btn-light me-2">
-                      <i className="bi bi-pencil"></i>
-                    </button>
-                    <button className="btn btn-sm btn-light">
-                      <i className="bi bi-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">4</th>
-                  <td>Eko Purnomo</td>
-                  <td>eko@example.com</td>
-                  <td>Viewer</td>
-                  <td>
-                    <span className="badge bg-warning">Pending</span>
-                  </td>
-                  <td>
-                    <button className="btn btn-sm btn-light me-2">
-                      <i className="bi bi-pencil"></i>
-                    </button>
-                    <button className="btn btn-sm btn-light">
-                      <i className="bi bi-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">5</th>
-                  <td>Fitri Hapsari</td>
-                  <td>fitri@example.com</td>
-                  <td>Viewer</td>
-                  <td>
-                    <span className="badge bg-danger">Nonaktif</span>
-                  </td>
-                  <td>
-                    <button className="btn btn-sm btn-light me-2">
-                      <i className="bi bi-pencil"></i>
-                    </button>
-                    <button className="btn btn-sm btn-light">
-                      <i className="bi bi-trash"></i>
-                    </button>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <div id="users-find-fun-app">
+              <UsersFindFunApp />
+            </div>
           </div>
         </div>
       </div>

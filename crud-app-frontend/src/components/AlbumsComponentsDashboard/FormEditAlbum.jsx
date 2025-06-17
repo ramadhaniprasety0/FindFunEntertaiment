@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import api, { api_image } from "../../api/axios"; 
+import api from "../../api/axios"; 
 
 import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.min.css";
@@ -8,22 +8,20 @@ import "sweetalert2/dist/sweetalert2.min.css";
 const FormEditAlbum = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  // Token tidak perlu diambil manual karena sudah ditangani oleh axios.js
-  // const token = localStorage.getItem("token");
 
   const [title, setTitle] = useState("");
   const [releaseYear, setReleaseYear] = useState("");
   const [genre, setGenre] = useState("");
   const [deskripsi, setDeskripsi] = useState("");
   const [image, setImage] = useState(null);
-  const [existingImage, setExistingImage] = useState(""); // Store the existing image path
+  const [existingImage, setExistingImage] = useState(""); 
   const [previewImage, setPreviewImage] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   useEffect(() => {
     const fetchAlbum = async () => {
       try {
-        const { data } = await api.get(`/albums/${id}`); // Hapus URL hardcoded, gunakan endpoint relatif
+        const { data } = await api.get(`/albums/${id}`); 
         const album = data.data;
         setTitle(album.title);
         setReleaseYear(album.release_year);

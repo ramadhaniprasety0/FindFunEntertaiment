@@ -16,7 +16,8 @@ const caroselControllers = require("../controllers/caroselControllers");
 const konserControllers = require("../controllers/konserControllers");
 const scheduleControllers = require("../controllers/scheduleControllers");
 const tiketFilmController = require("../controllers/tiketFilmController");
-
+const profileController = require("../controllers/profileControllers");
+const userController = require("../controllers/userController");
 // Basic middleware for logging
 router.use((req, res, next) => {
   console.log(`API Request: ${req.method} ${req.originalUrl}`);
@@ -32,7 +33,7 @@ const uploadFilm = multer({ dest: "uploads/films/" });
 const uploadPayment = multer({ dest: "uploads/payment/" });
 const uploadKonser = multer({ dest: "uploads/konser/" });
 const uploadKonserPayment = multer({ dest: "uploads/konser_payment/" });
-
+const uploadProfileImage = multer({ dest: "uploads/profile_images/" });
 // ===== AUTH ROUTES =====
 router.post("/login", authController.login);
 router.post("/register", authController.register);
@@ -40,17 +41,31 @@ router.post("/forgot-password", authController.forgotPassword);
 router.post("/verify-otp", authController.verifyOTP);
 router.post("/reset-password", authController.resetPassword);
 
-// ==== ADMIN ROUTES (PROTECTED) ====
-router.get("/admin/dashboard", authenticateToken, isAdmin, (req, res) => {
-  res.json({ message: "Berhasil masuk ke Dashboard Admin!" });
-});
+// ==== USER PROFILE ROUTES ====
+router.get("/profile", authenticateToken, profileController.getProfile);
+router.get("/profile/:id", authenticateToken, profileController.getProfile);
+router.put(
+  "/profile",
+  authenticateToken,
+  isUser,
+  uploadProfileImage.single("image"),
+  profileController.updateProfile
+);
 
-// Endpoint untuk membuat admin baru (hanya bisa diakses oleh admin)
+router.get(
+  "/films/tickets/user/:userId",
+  authenticateToken,
+  isUser,
+  filmControllers.getTicketsByUserId
+);
+
+// ==== ADMIN ROUTES (PROTECTED) ====
 router.post(
-  "/admin/create",
+  "/register/dashboar/users",
   authenticateToken,
   isAdmin,
-  authController.createAdmin
+  uploadProfileImage.single("image"),
+  authController.registerWithDashboard
 );
 
 // ==== USER DASHBOARD ROUTE (PROTECTED) ====
@@ -133,17 +148,17 @@ router.get("/tikets/bioskop", filmControllers.getAllTikets);
 router.get("/films/seats/:id", filmControllers.getAllSeat);
 router.get("/films/:id/tiket/price", filmControllers.getHargaTicket);
 router.get("/films/:id/schedule/:locationId", filmControllers.getScheduleFilm);
-router.get("/films/:id/bioskop/schedule/location/:locationId", filmControllers.getSchedule);
+router.get(
+  "/films/:id/bioskop/schedule/location/:locationId",
+  filmControllers.getSchedule
+);
 router.get("/films/:id/cinema", filmControllers.getCinemaLocation);
 router.get("/films/search", filmControllers.search); // ?q=searchTerm
 router.get("/films/genre/:genre", filmControllers.getByGenre);
 router.get("/payment-user", filmControllers.getPaymentUser);
 
-// Endpoint Untuk Edit Showtime
-router.put(
-  "/films/:id/schedule/:schedule_id",
-  filmControllers.updateShowtime
-)
+// Endpoint Films
+router.put("/films/:id/schedule/:schedule_id", filmControllers.updateShowtime);
 
 router.post(
   "/films/schedule",
@@ -152,7 +167,6 @@ router.post(
   filmControllers.createSchedule
 );
 
-// Endpoint Untuk Hapus Showtime
 router.delete(
   "/films/delete-schedule/:schedule_id",
   authenticateToken,
@@ -160,7 +174,6 @@ router.delete(
   filmControllers.deleteSchedule
 );
 
-// Endpoint pembelian tiket hanya bisa diakses oleh user yang sudah login
 router.post(
   "/films/beli/tiket",
   authenticateToken,
@@ -226,7 +239,7 @@ router.get("/music/:id", musicControllers.getById); // ?include=all
 router.get("/music/search", musicControllers.search); // ?q=searchTerm
 router.get("/music/genre/:genre", musicControllers.getByGenre);
 
-// Admin only operations
+// ===== ROUTE Admin only ======
 router.post(
   "/music",
   authenticateToken,
@@ -246,6 +259,40 @@ router.delete(
   authenticateToken,
   isAdmin,
   musicControllers.delete
+);
+
+// ==== USER MANAGEMENT ROUTES (ADMIN ONLY) ====
+router.get("/users", authenticateToken, isAdmin, userController.getAllUsers);
+router.get(
+  "/users/role/:role",
+  authenticateToken,
+  isAdmin,
+  userController.getUsersByRole
+);
+router.get(
+  "/users/:id",
+  authenticateToken,
+  isAdmin,
+  userController.getUserById
+);
+router.put(
+  "/users/:id/role",
+  authenticateToken,
+  isAdmin,
+  userController.updateUserRole
+);
+router.put(
+  "/users/:id",
+  authenticateToken,
+  isAdmin,
+  uploadProfileImage.single("image"),
+  userController.updateUser
+);
+router.delete(
+  "/users/:id",
+  authenticateToken,
+  isAdmin,
+  userController.deleteUser
 );
 
 // ===== ULASAN ROUTES =====
@@ -410,6 +457,8 @@ router.get("/schedules/:id", scheduleControllers.getById); // ?include=all
 router.get("/films/:filmId/schedules", scheduleControllers.getByFilmId);
 
 // Admin only operations
+
+// Endpoin Tiket Film
 router.post(
   "/schedules",
   authenticateToken,
@@ -429,13 +478,29 @@ router.delete(
   scheduleControllers.delete
 );
 
-// Endpoint untuk membuat tiket film (membuat data di 3 tabel sekaligus)
 router.post(
   "/tiket-film",
   authenticateToken,
   isAdmin,
   tiketFilmController.createTiketFilm
 );
+
+// Endpoint untuk cinema locations
+router.get("/cinema-locations", tiketFilmController.getAllCinemaLocations);
+router.get("/cinema-locations/:id", tiketFilmController.getCinemaLocationById);
+router.post("/cinema-locations", tiketFilmController.createCinemaLocation);
+router.put("/cinema-locations/:id", tiketFilmController.updateCinemaLocation);
+router.delete(
+  "/cinema-locations/:id",
+  tiketFilmController.deleteCinemaLocation
+);
+
+// Endpoint untuk ticket prices
+router.get("/ticket-prices", tiketFilmController.getAllTicketPrices);
+router.get("/ticket-prices/:id", tiketFilmController.getTicketPriceById);
+router.post("/ticket-prices", tiketFilmController.createTicketPrice);
+router.put("/ticket-prices/:id", tiketFilmController.updateTicketPrice);
+router.delete("/ticket-prices/:id", tiketFilmController.deleteTicketPrice);
 
 // Tiket konser management
 router.get(
@@ -457,7 +522,7 @@ router.get(
 
 // Endpoint pembelian tiket konser (user only)
 router.post(
-  "/konser/beli/tiket",
+  "/konser/beli-tiket",
   authenticateToken,
   isUser,
   uploadKonser.single("poster"),
@@ -466,18 +531,14 @@ router.post(
 
 // Payment management
 
-router.get("/konser/payments/all",  konserControllers.getAllPayments);
+router.get("/konser/payments/all", konserControllers.getAllPayments);
 router.get(
   "/konser/payments",
   authenticateToken,
   isAdmin,
   konserControllers.getAllPayments
 );
-router.get(
-  "/konser/payment/:id",
-  authenticateToken,
-  konserControllers.getPaymentById
-);
+router.get("/konser/:id/payment/:paymentId", konserControllers.getPaymentById);
 router.get(
   "/konser/payment/:id/details",
   authenticateToken,
@@ -486,7 +547,7 @@ router.get(
 
 // Update payment status (admin only)
 router.put(
-  "/konser/payment/:id/status",
+  "/konser/payment/:paymentId/status",
   authenticateToken,
   isAdmin,
   konserControllers.updatePaymentStatus
@@ -494,7 +555,7 @@ router.put(
 
 // Upload bukti pembayaran (user only)
 router.put(
-  "/konser/payment/:id/bukti",
+  "/konser/:id/payment-bukti/:paymentId",
   authenticateToken,
   isUser,
   uploadKonserPayment.single("image"),
