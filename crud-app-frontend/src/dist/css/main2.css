@@ -1,0 +1,3416 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap");
+
+* {
+  font-family: "Nunito", sans-serif;
+}
+
+.montserrat-font {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+:root {
+  --primary-color: #f6f8fd;
+  --secondary-color: #dc3545;
+  --color-text: #231942;
+  --navbar-color: #ffffff;
+  --navbar-color-text: #000000;
+  --primary-color-dashboard: #8E97FD;
+  --secondary-color-dashboard: rgba(142, 151, 253, 69%);
+  --btn-slider-color-dashboard: #1F265E;
+  --text-slider-dashboard : #1F265E;
+  --text-content-dashboard-dashboard : #000000;
+}
+
+/* NAVBAR */
+.navbar {
+  background-color: #8e97fd;
+  color: var(--navbar-color); 
+  position: sticky;
+  top: 0; 
+  padding: 15px 0 15px 0;
+  width: 100%;
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.navbar.color-active {
+  position: fixed;
+  background-color: #8e97fd;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); 
+}
+
+.navbar.color-active .nav-link a:hover {
+  color: #ffff;
+}
+
+
+
+.navbar .nav-link a {
+  color: var(--navbar-color, white); 
+  padding: 5px 10px 5px 10px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navbar .nav-link a:hover {
+  color: black;
+}
+
+.navbar .nav-link .active {
+  color: var(--primary-color, #251551); /* Default ke #251551 */
+  border-bottom: 2px solid #251551;
+}
+
+.navbar .nav-link .active:hover {
+  color: var(--primary-color, #251551);
+}
+
+.search-box input {
+  width: 314px;
+  background-color: #ffffff;
+  border: 1px solid var(--navbar-color, white);
+}
+
+.search-box input::placeholder {
+  color: rgb(138, 138, 138);
+  font-style: italic;
+  font-size: 15px;
+}
+
+.navbar form .form-control {
+  border-radius: 25px;
+}
+
+.navbar form .form-control:focus {
+  box-shadow: #251551 0px 0px 0px 2px;
+  background-color: #ffff;
+  color: #251551;
+  border-color: #251551; /* Tambahkan border color saat focus */
+}
+
+/* --- CSS PROFILE DROPDOWN (DIMODIFIKASI) --- */
+
+/* Menghilangkan panah default pada dropdown */
+.navbar .profile-dropdown-container .dropdown-toggle::after {
+  display: none;
+}
+
+/* Mengatur style tombol dropdown (gambar) agar tidak ada background/border */
+.navbar .profile-dropdown-container .dropdown-toggle,
+.navbar .profile-dropdown-container .dropdown-toggle:focus,
+.navbar .profile-dropdown-container .dropdown-toggle:active {
+  padding: 0 !important; /* Hapus padding */
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important; /* Hapus bayangan focus */
+}
+
+/* Memberi border pada gambar profil (opsional) */
+.navbar .profile-pic-dropdown {
+  border: 1.5px solid white;
+  cursor: pointer;
+}
+
+/* --- GAYA BARU UNTUK MENU DROPDOWN --- */
+.navbar .profile-dropdown-container .dropdown-menu {
+  margin-top: 10px !important; /* Jarak dari navbar */
+  border-radius: 12px; /* Sudut lebih tumpul */
+  border: none; /* Hapus border */
+  background-color: #8E97FD; /* Warna ungu muda (sesuai gambar) */
+  box-shadow: none; /* Hapus bayangan */
+  min-width: 160px; /* Lebar minimum */
+  padding: 10px 0; /* Padding atas-bawah */
+  text-align: center; /* Teks rata tengah */
+}
+
+/* --- GAYA BARU UNTUK ITEM DROPDOWN --- */
+.navbar .profile-dropdown-container .dropdown-item {
+  color: rgb(0, 0, 0); 
+  padding: 10px 20px; 
+  text-decoration: none;
+  display: block;
+  background-color: transparent; 
+  border: none;
+  font-style: italic; 
+  font-size: 1.1rem; 
+  font-weight: 500; 
+  transition: background-color 0.2s ease;
+}
+
+.navbar .profile-dropdown-container .dropdown-item:hover,
+.navbar .profile-dropdown-container .dropdown-item:focus {
+  background-color: #a0a8f0; 
+  color: white; 
+}
+/* NAVBAR */
+
+/* FOOTER */
+.footer {
+  margin: 0;
+  background-color: #8e97fd;
+}
+.footer .findfun p {
+  text-align: Justify;
+  margin-top: 20px;
+}
+
+.footer .produk ul {
+  text-align: Justify;
+  margin-top: 35px;
+  margin-right: 21px;
+}
+.footer .support ul {
+  text-align: Justify;
+  margin-top: 35px;
+  margin-right: 100px;
+}
+.footer .support h1 {
+  margin-right: 165px;
+}
+
+.footer .icons-sosmed p {
+  margin-top: 35px;
+}
+
+.footer .icons-sosmed ul li a {
+  color: #ffffff;
+}
+
+.footer .icons-sosmed ul li a:hover {
+  color: #1c1a28;
+}
+
+footer .row {
+  --bs-gutter-x: 0 !important;
+}
+
+.copyright {
+  padding: 10px;
+  color: #ffeccc;
+  background-color: #a6adfb;
+}
+
+header {
+  background-image: url("/public/bg-header.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+header .container h1 {
+  font-weight: 600;
+  font-size: 70px;
+  text-align: center;
+  color: #ffffff;
+  font-style: italic;
+}
+
+header .container p {
+  font-size: 25px;
+  text-align: center;
+  color: #ffffff;
+  font-style: italic;
+}
+
+header .container .btn-explore {
+  background-color: #8e97fd;
+  border-radius: 20px;
+  padding: 10px 18px 10px 18px;
+  font-weight: 500;
+  font-size: 18px;
+  text-align: center;
+  color: #ffffff;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+header .container .btn-explore:hover {
+  background-color: #251551;
+}
+
+/* src/styles/LoginPage.css */
+.login-page {
+  font-family: "Segoe UI", sans-serif;
+}
+
+.login-left {
+  width: 100%;
+  background-image: url("/src/img/login/bg-login.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.login-right {
+  width: 20%;
+  background-color: #fff;
+}
+
+/* Input fields */
+.login-form .form-control {
+  background-color: #dcddff;
+  border: 1px solid #dcddff;
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.login-form .form-control:focus {
+  border-color: #8e97fd;
+  box-shadow: 0 0 0 0.15rem rgba(142, 151, 253, 0.3);
+}
+
+.login-form .btn-primary {
+  background-color: #8e97fd;
+  border: none;
+}
+
+.login-form .btn-primary:hover {
+  background-color: #8fa8ff;
+}
+
+.login-form .form-label {
+  font-weight: 500;
+  color: #6c63ff;
+}
+
+.login-form hr {
+  border: none;
+  border-top: 2px solid #8e97fd;
+  width: 150%;
+  margin: 2rem -25% 2rem -25%;
+  opacity: 0.9;
+}
+
+/* Base layout */
+.register-page {
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Left: Form register */
+.register-left {
+  width: 20%;
+  background-color: #ffffff;
+}
+
+/* Right: Background image & welcome message */
+.register-right {
+  width: 100%;
+  background-image: url("/src/assets/img/login/bg-regis.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  position: relative;
+  padding: 2rem;
+}
+
+.register-right h2 {
+  font-weight: 700;
+  font-size: 2rem;
+}
+
+.register-right p.lead {
+  font-size: 1rem;
+}
+
+/* Responsive behavior */
+@media (max-width: 768px) {
+  .register-right {
+    display: none;
+  }
+}
+
+/* Form fields */
+.register-form .form-control {
+  background-color: #dcddff;
+  border: 1px solid #dcddff;
+  border-radius: 1rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.register-form .form-control:focus {
+  border-color: #8e97fd;
+  box-shadow: 0 0 0 0.15rem rgba(142, 151, 253, 0.3);
+}
+
+/* Button styling */
+.register-form .btn-primary {
+  background-color: #8e97fd;
+  border: none;
+}
+
+.register-form .btn-primary:hover {
+  background-color: #8fa8ff;
+}
+
+.register-form .form-label {
+  font-weight: 500;
+  color: #6c63ff;
+}
+
+.register-form hr {
+  border: none;
+  border-top: 2px solid #8e97fd;
+  width: 150%;
+  margin: 2rem -25% 2rem -25%;
+  opacity: 0.9;
+}
+
+.edit-profile-wrapper {
+  padding-top: 80px;
+  background-color: #dcddff;
+  padding-bottom: 30px;
+}
+
+.edit-profile-wrapper .edit-profile-page-wrapper {
+  padding-top: 80px;
+  background-color: #dcddff;
+  padding-bottom: 30px;
+}
+
+.edit-profile-wrapper .profile-container {
+  background-color: #9599F6;
+  border-radius: 12px;
+  color: #000;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 70px 100px;
+}
+
+.edit-profile-wrapper .profile-header-v2 {
+  background-color: #dcedc8;
+  border-radius: 15px;
+  margin-left: -12px;
+  margin-right: -12px;
+  margin-top: -24px;
+  width: calc(100% + 24px);
+  position: relative;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.edit-profile-wrapper .profile-image-wrapper {
+  z-index: 2;
+}
+
+.edit-profile-wrapper .profile-img-border {
+  border: 3px solid #ffffff;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+
+.edit-profile-wrapper .profile-header-v2 h5 {
+  font-weight: 600;
+  color: #333;
+}
+
+.edit-profile-wrapper .ubah-button {
+  font-size: 0.85em;
+  border-radius: 8px;
+  background-color: #DCDDFF;
+  border: 1px solid #000000; /* --- Border Hitam --- */
+  color: #555;
+}
+
+.edit-profile-wrapper .ubah-button:hover {
+  background-color: #f0f0f0;
+}
+
+/* GAYA FORM */
+.edit-profile-wrapper .form-label-custom {
+  font-weight: 500;
+  color: rgb(0, 0, 0);
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 6px;
+  text-align: left !important;
+  padding-left: 0;
+}
+
+/* GAYA INPUT DEFAULT */
+.edit-profile-wrapper .profile-form .default-input {
+  border: 1px solid #000000; /* --- Border Hitam --- */
+  border-radius: 4px;
+  background-color: white !important;
+  color: #495057;
+  padding: 8px 12px;
+  font-size: 1rem;
+  width: 100%;
+}
+
+.edit-profile-wrapper .profile-form .default-input:focus {
+  border-color: #000000; 
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1);
+}
+
+.edit-profile-wrapper .profile-form .custom-select-v3 {
+  border: 1px solid #000000;
+  border-radius: 4px;
+  background-color: white !important;
+  color: #495057;
+  padding: 8px 12px;
+  font-size: 1rem;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m2 5 6 6 6-6'/%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 16px 12px;
+  appearance: none;
+}
+
+.edit-profile-wrapper .profile-form .custom-select-v3:focus {
+  border-color: #000000; 
+  box-shadow: 0 0 0 0.2rem rgba(0, 0, 0, 0.1); 
+}
+
+/* GAYA TOMBOL GANTI */
+.edit-profile-wrapper .ganti-button.v4 {
+  background-color: #DCDDFF;
+  border: 1px solid #000000; 
+  color: #333;
+  border-radius: 4px;
+  font-weight: 600;
+  padding: 8px 12px;
+  transition: all 0.2s ease;
+  font-size: 0.9em;
+  min-width: 140px;
+  text-align: center;
+}
+
+.edit-profile-wrapper .ganti-button.v4:hover {
+  background-color: #e0e2e5;
+}
+
+.edit-profile-wrapper .profile-form .row.align-items-center > .col,
+.edit-profile-wrapper .profile-form .row.align-items-center > [class*="col-"] {
+  padding-right: 5px;
+}
+.edit-profile-wrapper .profile-form .row.align-items-center > .col-auto {
+  padding-left: 5px;
+}
+
+.edit-profile-wrapper .simpan-button.v3 {
+  background-color: #ffff;
+  border: 1px solid #ffff; 
+  color: #8e97fd;
+  font-weight: 700;
+  padding: 10px 50px;
+  border-radius: 25px;
+  transition: all 0.2s ease;
+}
+
+.edit-profile-wrapper .simpan-button.v3:hover {
+  background-color: #f0f0f0;
+  border-color: #f0f0f0;
+  color: #7985e0;
+}
+
+.homepage {
+  background-color: #dcddff;
+  padding-top: 120px;
+}
+
+.homepage h1 {
+  margin-top: 40px;
+  color: #251551;
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.homepage .header-box p {
+  line-height: 2;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: var(--color-text);
+}
+
+.homepage .header-box img {
+  border-radius: 17px;
+  width: 100%;
+}
+
+.homepage .header-box .carousel-caption {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 0) 47%
+  );
+  border-radius: 17px;
+  padding: 48px;
+}
+
+.homepage .header-box .carousel-caption img {
+  width: 350px;
+  height: 180px;
+}
+
+.homepage .header-box .carousel-caption .btn-seemore {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #8e97fd;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+  font-weight: 400;
+  font-size: 20px;
+  font-style: italic;
+  text-align: center;
+  width: 110px;
+  transition: all 0.3s ease;
+}
+
+.homepage .header-box .carousel-caption .btn-seemore:hover {
+  background-color: #251551;
+  color: white;
+}
+
+.homepage .header-box .carousel {
+  border-radius: 17px;
+  padding: 5px;
+}
+
+.homepage .header-box .carousel .carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage .header-box .carousel .carousel-indicators button {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  opacity: 0.6;
+}
+
+.homepage .header-box .carousel .carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+.homepage .box-hits {
+  border-radius: 17px;
+  background-color: #9599f6;
+  width: 100%;
+  max-width: 1280px;
+  margin: 50px auto 0 auto;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Judul bagian musik hits */
+.homepage .box-hits h1 {
+  margin-left: 5px;
+  font-size: 40px;
+  font-weight: bold;
+  color: #251551;
+}
+
+.homepage .judul-hits {
+  
+  font-size: 40px;
+  font-weight: bold;
+  color: #251551;
+}
+
+/* Kontainer kartu musik */
+.homepage .card-hits-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 50px;
+  justify-content: flex-start;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+/* Kartu individu */
+.homepage .card-hits {
+  flex: 0 0 auto;
+  width: 190px;
+  height: 280px;
+  background-color: #2e388a;
+  border-radius: 7px;
+  margin-bottom: 20px;
+  position: relative;
+  padding: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2), 0 6px 20px rgba(0,0,0,0.19);
+}
+
+/* Gambar dalam kartu */
+.homepage .card-hits img {
+  width: 100%;
+  height: 158px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2), 0 6px 20px rgba(0,0,0,0.19);
+}
+
+/* Judul & subjudul kartu */
+.homepage .card-hits h1 {
+  font-size: 16px;
+  line-height: 0.8;
+  font-weight: 500;
+  color: #ffffff;
+  margin-top: -5px;
+}
+
+.homepage .card-hits h2 {
+  font-size: 16px;
+  line-height: 0.8;
+  font-weight: 500;
+  color: #ffffff;
+  margin-top: 6px;
+}
+
+/* Deskripsi */
+.homepage .card-hits p {
+  font-size: 0.8rem;
+  font-weight: 400;
+  color: #a7a7a7;
+}
+
+/* Icon tombol play (jika ada) */
+.homepage .card-hits .link-icon {
+  background-color: var(--primary-color-dashboard);
+  padding: 2px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-size: 20px;
+  text-decoration: none;
+  color: #ffff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.homepage .card-hits .icon {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #9599F6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.homepage .card-hits .icon:hover {
+  font-size: 20px;
+  background-color: #ffff;
+  color: #9599F6;
+  transition: all 0.3s ease;
+}
+
+.homepage .card-populer-films {
+  position: relative;
+  border-radius: 17px;
+}
+
+.homepage .card-populer-films::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+  border-radius: 17px;
+  transform: scale(0.95);
+  filter: blur(20px);
+}
+
+/* Kartu film populer */
+.homepage .card-film {
+  width: 100%;
+  height: 100%;
+  border-radius: 17px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Gambar film */
+.homepage .card-film .card-film-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  transition: scale 0.6s, rotate 0.6s, filter 1s;
+}
+
+.homepage .card-film .card-film-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 17px;
+  object-fit: cover;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Caption saat hover */
+.homepage .card-film .card-film-caption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  color: #ffffff;
+  padding: 20px;
+  line-height: 1.5;
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(50px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.homepage .card-film .card-film-caption .heading {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.card-film:hover .card-film-caption {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.card-film:hover .card-film-img {
+  scale: 1.2;
+  rotate: 5deg;
+  filter: blur(40px);
+}
+
+.homepage .box-hots-news h1 {
+  font-size: 40px;
+  color: #251551;
+}
+
+.homepage .news-card{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  
+}
+
+.homepage .news-card .img-brand {
+  width: 372px;
+  height: 287px;
+  border-top-left-radius: 17px;
+  border-bottom-left-radius: 17px;
+}
+
+.homepage .news-card .news-caption {
+  width: 100%;
+  padding: 16px;
+  background-color: #9599f6;
+  border-top-right-radius: 17px;
+  border-bottom-right-radius: 17px;
+}
+
+.homepage .news-card .news-caption img {
+  width: 140px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.homepage .news-card .news-caption p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgb(213, 212, 212);
+}
+.homepage .news-card .news-caption a {
+  text-decoration: none;
+  font-weight: 400;
+  color: white;
+}
+.homepage .news-card .news-caption a:hover {
+  text-decoration: underline;
+  font-weight: 400;
+  color: white;
+}
+
+.homepage .news-card .news-caption h5 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.homepage .popular-reviews-container {
+  padding: 40px 15px; /* Add some padding */
+  max-width: 950px; /* Adjust max-width */
+  margin: 0 auto; /* Center the container */
+}
+
+.homepage .popular-reviews-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3f51b5; /* Dark blue title */
+  margin-bottom: 30px;
+}
+
+.homepage .review-card {
+  background-color: #8E97FD; /* Light purple background */
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Make cards in the same row have the same height */
+  transition: transform 0.2s ease-in-out;
+}
+
+.homepage .review-card:hover {
+    transform: translateY(-5px);
+}
+
+.homepage .review-header {
+  display: flex;
+  margin-bottom: 15px;
+  min-height: 120px; /* Ensure consistent header height */
+}
+
+.homepage .review-poster {
+  width: 80px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.homepage .review-poster.album {
+  width: 100px;
+  height: 100px;
+}
+
+.homepage .review-meta {
+  flex-grow: 1;
+}
+
+.homepage .review-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.homepage .review-year, .homepage .review-director {
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0;
+}
+
+.homepage .review-body {
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow body to grow */
+}
+
+.homepage .reviewer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.homepage .reviewer-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.homepage .avatar-green { background-color: #a5d6a7; }
+.homepage .avatar-yellow { background-color: #fff59d; }
+.homepage .avatar-lightgreen { background-color: #c5e1a5; }
+.homepage .avatar-pink { background-color: #f48fb1; }
+
+.homepage .reviewer-name {
+  font-weight: 500;
+  color: #333;
+  flex-grow: 1;
+}
+
+.homepage .review-rating {
+  font-size: 16px;
+  font-weight: 700;
+  color: #444;
+}
+
+.homepage .review-text {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.homepage .review-text a {
+  color: #673ab7; /* Purple link */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.homepage .review-text a:hover {
+  text-decoration: underline;
+}
+
+.homepage .review-text .review-see-more {
+  color: #555; 
+  text-decoration: underline;
+  font-weight: 500; 
+  display: inline; 
+  transition: color 0.2s ease;
+}
+
+.homepage .review-text .review-see-more:hover {
+  color: #333; 
+  text-decoration: underline; 
+}
+
+.homepage .review-footer {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+  margin-top: auto; /* Push footer to the bottom */
+}
+
+.homepage .review-footer-item {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.homepage .review-footer-item svg {
+  margin-right: 5px;
+}
+
+.homepage .bermanfaat {
+  margin-left: auto; /* Push Bermanfaat to the right */
+  margin-right: 0;
+}
+
+/* CSS PAGE FILMS */
+
+.homepage-films {
+  padding-top: 80px;
+  background-color: #dcddff;
+}
+
+.homepage-films .box-carousel-films h1 {
+  font-size: 40px;
+  color: #251551;
+  font-weight: bold;
+}
+
+.homepage-films .box-carousel-films img {
+  width: 100%;
+  border-radius: 17px;
+}
+
+.homepage-films .box-carousel-films .carousel-caption img {
+  width: 350px;
+  height: 180px;
+}
+
+.homepage-films .box-carousel-films .carousel-caption {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 0) 47%
+  );
+  border-radius: 17px;
+  padding: 48px;
+}
+
+.homepage-films .box-carousel-films .carousel-caption h5 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.homepage-films .box-carousel-films .carousel-caption p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #a7a7a7;
+}
+
+.homepage-films .box-carousel-films .carousel-caption .btn-seemore {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #8e97fd;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+  font-weight: 400;
+  font-size: 20px;
+  font-style: italic;
+  width: 110px;
+  transition: all 0.3s ease;
+}
+
+.homepage-films .box-carousel-films .carousel-caption .btn-seemore:hover {
+  background-color: #251551;
+  color: white;
+}
+
+.homepage-films .box-carousel-films .carousel img {
+  border-radius: 17px;
+}
+
+.homepage-films .box-carousel-films .carousel {
+  border-radius: 17px;
+  padding: 5px;
+}
+
+.homepage-films .box-carousel-films .carousel .carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage-films .box-carousel-films .carousel .carousel-indicators button {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  opacity: 0.6;
+}
+
+.homepage-films .box-carousel-films .carousel .carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+/* CSS PAGE FILMS POPULER CINEMA */
+.homepage-films .box-populer-films {
+  border-radius: 17px;
+  background-color: #8e97fd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.homepage-films .card-populer-films {
+  position: relative;
+  border-radius: 17px;
+}
+
+.homepage-films .card-populer-films::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+  border-radius: 17px;
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
+}
+
+.homepage-films .card-film {
+  width: 100%;
+  height: 100%;
+  border: inherit;
+  overflow: hidden;
+  border-radius: 17px;
+}
+
+.homepage-films .card-film .card-film-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  transition: scale 0.6s, rotate 0.6s, filter 1s;
+}
+
+.homepage-films .card-film .card-film-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 17px;
+  object-fit: cover;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.homepage-films .card-film .card-film-caption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  color: #ffffff;
+  padding: 20px;
+  line-height: 1.5;
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(50px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.homepage-films .card-film .card-film-caption .heading {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.card-film:hover .card-film-caption {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.card-film:hover .card-film-img {
+  scale: 1.2;
+  rotate: 5deg;
+  filter: blur(40px);
+}
+
+.homepage-films .news-card{
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  
+}
+
+.homepage-films .news-card .img-brand {
+  width: 372px;
+  height: 287px;
+  border-top-left-radius: 17px;
+  border-bottom-left-radius: 17px;
+}
+
+.homepage-films .news-card .news-caption {
+  width: 100%;
+  padding: 16px;
+  background-color: #9599f6;
+  border-top-right-radius: 17px;
+  border-bottom-right-radius: 17px;
+}
+
+.homepage-films .news-card .news-caption img {
+  width: 140px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.homepage-films .news-card .news-caption p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #a7a7a7;
+}
+
+.homepage-films .news-card .news-caption h5 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.homepage-films .box-populer-films h1 {
+  font-size: 40px;
+  color: #251551;
+  font-weight: bold;
+}
+
+.homepage-films .box-berita h1 {
+  font-size: 40px;
+  color: #251551;
+  font-weight: bold;
+}
+
+.homepage-films .box-berita a {
+  text-decoration: none;
+  font-weight: 400;
+  color: white;
+}
+.homepage-films .box-berita a:hover {
+  text-decoration: underline;
+  font-weight: 400;
+  color: white;
+}
+
+.homepage-films .card-populer-films img {
+  width: 254px;
+  height: 384px;
+}
+
+*/ .homepage-films h1 {
+  font-size: 40px;
+  color: #251551;
+  font-weight: bold;
+}
+
+.homepage-films .box-bioskop-terbaru {
+  border-radius: 17px;
+  background-color: #8e97fd;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.homepage-films .bioskop-film-row {
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  background-color: #fff;
+  height: 100%;
+  max-height: 320px;
+}
+
+.homepage-films .bioskop-film-img-col,
+.homepage-films .bioskop-film-info-col {
+  width: 50%;
+}
+
+.homepage-films .bioskop-image-wrapper {
+  width: 100%;
+  height: 100%;
+}
+
+.homepage-films .bioskop-film-image {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.homepage-films .bioskop-film-info-card {
+  background-color: #5b5fe3;
+  color: white;
+  padding: 1.5rem;
+  height: 100%;
+  width: 100%;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.homepage-films .bioskop-film-genre {
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid white;
+  display: inline-block;
+  width: auto;
+  max-width: fit-content;
+}
+
+.homepage-films .bioskop-film-title {
+  font-size: 1.3rem;
+  font-weight: bold;
+  margin-bottom: 0.7rem;
+}
+
+.homepage-films .bioskop-film-desc {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.homepage-films .bioskop-film-link {
+  font-size: 0.95rem;
+  color: white;
+  text-decoration: none;
+}
+
+.homepage-films .bioskop-arrow {
+  margin-left: 0.3rem;
+  font-size: 1.2rem;
+  transition: transform 0.2s ease;
+}
+
+.homepage-films .bioskop-film-link:hover .bioskop-arrow {
+  transform: translateX(5px);
+}
+
+.homepage-films .popular-reviews-container {
+  padding: 40px 15px; /* Add some padding */
+  max-width: 950px; /* Adjust max-width */
+  margin: 0 auto; /* Center the container */
+}
+
+.homepage-films .popular-reviews-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3f51b5; /* Dark blue title */
+  margin-bottom: 30px;
+}
+
+.homepage-films .review-card {
+  background-color: #8E97FD; /* Light purple background */
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Make cards in the same row have the same height */
+  transition: transform 0.2s ease-in-out;
+}
+
+.homepage-films .review-card:hover {
+    transform: translateY(-5px);
+}
+
+.homepage-films .review-header {
+  display: flex;
+  margin-bottom: 15px;
+  min-height: 120px; /* Ensure consistent header height */
+}
+
+.homepage-films .review-poster {
+  width: 80px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.homepage-films .review-poster.album {
+  width: 100px;
+  height: 100px;
+}
+
+.homepage-films .review-meta {
+  flex-grow: 1;
+}
+
+.homepage-films .review-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.homepage-films .review-year, .homepage-films .review-director {
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0;
+}
+
+.homepage-films .review-body {
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow body to grow */
+}
+
+.homepage-films .reviewer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.homepage-films .reviewer-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.homepage-films .avatar-green { background-color: #a5d6a7; }
+.homepage-films .avatar-yellow { background-color: #fff59d; }
+.homepage-films .avatar-lightgreen { background-color: #c5e1a5; }
+.homepage-films .avatar-pink { background-color: #f48fb1; }
+
+.homepage-films .reviewer-name {
+  font-weight: 500;
+  color: #333;
+  flex-grow: 1;
+}
+
+.homepage-films .review-rating {
+  font-size: 16px;
+  font-weight: 700;
+  color: #444;
+}
+
+.homepage-films .review-text {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.homepage-films .review-text a {
+  color: #673ab7; /* Purple link */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.homepage-films .review-text a:hover {
+  text-decoration: underline;
+}
+
+.homepage-films .review-text .review-see-more {
+  color: #555; 
+  text-decoration: underline;
+  font-weight: 500; 
+  display: inline; 
+  transition: color 0.2s ease;
+}
+
+.homepage-films .review-text .review-see-more:hover {
+  color: #333; 
+  text-decoration: underline; 
+}
+
+.homepage-films .review-footer {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+  margin-top: auto; /* Push footer to the bottom */
+}
+
+.homepage-films .review-footer-item {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.homepage-films .review-footer-item svg {
+  margin-right: 5px;
+}
+
+.homepage-films .bermanfaat {
+  margin-left: auto; /* Push Bermanfaat to the right */
+  margin-right: 0;
+}
+
+/* CSS PAGE MUSICS */
+.homepage-musics {
+  padding-top: 80px;
+  background-color: #dcddff;
+}
+
+.homepage-musics .box-carousel-musics h1 {
+  font-size: 40px;
+  color: #ffffff;
+}
+
+.homepage-musics .box-carousel-musics img {
+  width: 100%;
+  border-radius: 17px;
+}
+
+.homepage-musics .box-carousel-musics .carousel-caption img {
+  width: 350px;
+  height: 180px;
+}
+
+.homepage-musics .box-carousel-musics .carousel-caption {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 0) 47%
+  );
+  border-radius: 17px;
+  padding: 48px;
+}
+
+.homepage-musics .box-carousel-musics .carousel-caption h5 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.homepage-musics .box-carousel-musics .carousel-caption p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #a7a7a7;
+}
+
+.homepage-musics .box-carousel-musics .carousel-caption .btn-seemore {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #8e97fd;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+  font-weight: 400;
+  font-size: 20px;
+  font-style: italic;
+  width: 110px;
+  transition: all 0.3s ease;
+}
+
+.homepage-musics .box-carousel-musics .carousel-caption .btn-seemore:hover {
+  background-color: #251551;
+  color: white;
+}
+
+.homepage-musics .box-carousel-musics .carousel img {
+  border-radius: 17px;
+}
+
+.homepage-musics .box-carousel-musics .carousel {
+  border-radius: 17px;
+  padding: 5px;
+}
+
+.homepage-musics .box-carousel-musics .carousel .carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.homepage-musics .box-carousel-musics .carousel .carousel-indicators button {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  opacity: 0.6;
+}
+
+.homepage-musics .box-carousel-musics .carousel .carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+/* CSS PAGE FILMS POPULER CINEMA */
+.homepage-musics .box-konser-musics {
+  border-radius: 17px;
+  background: #808ad5;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.homepage-musics .card-konser-musics {
+  position: relative;
+  border-radius: 17px;
+}
+
+.homepage-musics .card-konser-musics::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: linear-gradient(-45deg, #f89b29 0%, #ff0f7b 100%);
+  border-radius: 17px;
+  transform: translate3d(0, 0, 0) scale(0.95);
+  filter: blur(20px);
+}
+
+.homepage-musics .card-music {
+  width: 100%;
+  height: 100%;
+  border: inherit;
+  overflow: hidden;
+  border-radius: 17px;
+}
+
+.homepage-musics .card-music .card-music-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 17px;
+  transition: scale 0.6s, rotate 0.6s, filter 1s;
+}
+
+.homepage-musics .card-music .card-music-img img {
+  width: 100%;
+  height: 100%;
+  border-radius: 17px;
+  object-fit: cover;
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.homepage-musics .card-music .card-music-caption {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+  color: #ffffff;
+  padding: 20px;
+  line-height: 1.5;
+  border-radius: 5px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(50px);
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.homepage-musics .card-music .card-music-caption .heading {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 800;
+}
+
+.homepage-musics .btn-lihat-semua {
+  background-color: #2e388a; /* Sesuaikan warna biru sesuai gambar */
+  color: #fff; /* Teks putih */
+  border: none;
+  padding: 6px 16px;
+  font-size: 0.95rem;
+  border-radius: 999px; /* Full rounded */
+  font-weight: 500;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+}
+
+.homepage-musics .btn-lihat-semua:hover {
+  background-color: #25287a;
+  color: #fff;
+  text-decoration: none;
+}
+
+.homepage-musics .card-music:hover .card-music-caption {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.homepage-musics .card-music:hover .card-music-img {
+  scale: 1.2;
+  rotate: 5deg;
+  filter: blur(40px);
+}
+
+.homepage-musics .box-populer-musics {
+  border-radius: 17px;
+  background: #808ad5;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.music-popular-wrapper {
+  border-radius: 16px;
+}
+
+.music-popular-card {
+  background-color: #4b3f6b;
+  border-radius: 16px;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.music-popular-card:hover {
+  transform: scale(1.03);
+}
+
+.music-popular-image {
+  width: 100%;
+  height: 266px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.music-popular-info {
+  background-color: #2e388a;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 130px;
+}
+
+.music-popular-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.music-popular-artist {
+  font-size: 16px;
+  color: #d1cfe3;
+  font-weight: bold;
+  font-style: italic;
+  margin: 4px 0 12px;
+}
+
+.music-popular-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid #1c1a28;
+}
+
+.music-popular-controls .icon-group-left {
+  display: flex;
+  gap: 15px;
+  font-size: 16px;
+  color: white;
+}
+
+.music-popular-controls .icon-group-left i {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.music-popular-controls .icon-group-left i:hover {
+  color: #ff5b5b;
+}
+
+.music-popular-controls .play-button {
+  width: 24px;
+  height: 24px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.music-popular-controls .play-button i {
+  color: white;
+  font-size: 14px;
+  margin-left: 2px;
+}
+
+.music-popular-controls .play-button:hover {
+  border-color: #ff5b5b;
+}
+
+.music-popular-controls .play-button:hover i {
+  color: #ff5b5b;
+}
+
+/* Section: Berita */
+.homepage-musics .news-card .img-brand {
+  width: 372px;
+  height: 287px;
+  border-top-left-radius: 17px;
+  border-bottom-left-radius: 17px;
+}
+
+.homepage-musics .news-card .news-caption {
+  padding: 16px;
+ background-color: #9599f6;
+  border-top-right-radius: 17px;
+  border-bottom-right-radius: 17px;
+}
+
+.homepage-musics .news-card .news-caption img {
+  width: 140px;
+  height: 24px;
+  margin-bottom: 10px;
+}
+
+.homepage-musics .news-card .news-caption p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #a7a7a7;
+}
+
+.homepage-musics .news-card .news-caption h5 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.homepage-musics .box-berita h1 {
+  font-size: 40px;
+  color: #251551;
+  font-weight: bold;
+}
+
+.homepage-musics .box-berita a {
+  text-decoration: none;
+  font-weight: 400;
+  color: white;
+}
+.homepage-musics .box-berita a:hover {
+  text-decoration: underline;
+  font-weight: 400;
+  color: white;
+}
+
+.homepage-musics .popular-reviews-container {
+  padding: 40px 15px; /* Add some padding */
+  max-width: 950px; /* Adjust max-width */
+  margin: 0 auto; /* Center the container */
+}
+
+.homepage-musics .popular-reviews-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #3f51b5; /* Dark blue title */
+  margin-bottom: 30px;
+}
+
+.homepage-musics .review-card {
+  background-color: #8E97FD; /* Light purple background */
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Make cards in the same row have the same height */
+  transition: transform 0.2s ease-in-out;
+}
+
+.homepage-musics .review-card:hover {
+    transform: translateY(-5px);
+}
+
+.homepage-musics .review-header {
+  display: flex;
+  margin-bottom: 15px;
+  min-height: 120px; /* Ensure consistent header height */
+}
+
+.homepage-musics .review-poster {
+  width: 80px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.homepage-musics .review-poster.album {
+  width: 100px;
+  height: 100px;
+}
+
+.homepage-musics .review-meta {
+  flex-grow: 1;
+}
+
+.homepage-musics .review-title {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 5px 0;
+  color: #333;
+}
+
+.homepage-musics .review-year, .homepage-musics .review-director {
+  font-size: 14px;
+  color: #555;
+  margin: 2px 0;
+}
+
+.homepage-musics .review-body {
+  margin-bottom: 20px;
+  flex-grow: 1; /* Allow body to grow */
+}
+
+.homepage-musics .reviewer-info {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.homepage-musics .reviewer-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+.homepage-musics .avatar-green { background-color: #a5d6a7; }
+.homepage-musics .avatar-yellow { background-color: #fff59d; }
+.homepage-musics .avatar-lightgreen { background-color: #c5e1a5; }
+.homepage-musics .avatar-pink { background-color: #f48fb1; }
+
+.homepage-musics .reviewer-name {
+  font-weight: 500;
+  color: #333;
+  flex-grow: 1;
+}
+
+.homepage-musics .review-rating {
+  font-size: 16px;
+  font-weight: 700;
+  color: #444;
+}
+
+.homepage-musics .review-text {
+  font-size: 15px;
+  color: #333;
+  line-height: 1.5;
+}
+
+.homepage-musics .review-text a {
+  color: #673ab7; /* Purple link */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.homepage-musics .review-text a:hover {
+  text-decoration: underline;
+}
+
+.homepage-musics .review-text .review-see-more {
+  color: #555; 
+  text-decoration: underline;
+  font-weight: 500; 
+  display: inline; 
+  transition: color 0.2s ease;
+}
+
+.homepage-musics .review-text .review-see-more:hover {
+  color: #333; 
+  text-decoration: underline; 
+}
+
+.homepage-musics .review-footer {
+  display: flex;
+  align-items: center;
+  font-size: 13px;
+  color: #555;
+  margin-top: auto; /* Push footer to the bottom */
+}
+
+.homepage-musics .review-footer-item {
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.homepage-musics .review-footer-item svg {
+  margin-right: 5px;
+}
+
+.homepage-musics .bermanfaat {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+@media screen and (max-width: 992px) {
+  header .container h1 {
+    font-size: 3rem;
+  }
+
+  header .container p {
+    font-size: 1.5rem;
+  }
+
+  .homepage .header-box {
+    padding-top: 8rem;
+  }
+
+  .homepage .card-hits img {
+    width: 100%;
+    height: 100px;
+  }
+
+  .homepage .card-hits h2 {
+    font-size: 0.6rem;
+  }
+
+  .homepage .card-hits p {
+    font-size: 0.6rem;
+  }
+
+  .homepage .header-box img {
+    width: 400px;
+    display: block;
+    margin-inline: auto;
+  }
+
+  .homepage .news-card .news-caption img {
+    width: 100px;
+    height: 20px;
+  }
+
+  .homepage .news-card .news-caption h5 {
+    font-size: 14px;
+  }
+
+  .homepage .news-card .news-caption p {
+    font-size: 10px;
+  }
+
+  .homepage .card-hits-films img {
+    width: 100%;
+    height: 300px;
+  }
+}
+
+@media screen and (max-width: 575px) {
+  .homepage .header-box h1 {
+    font-size: 3rem;
+  }
+
+  .homepage .header-box img {
+    width: 400px;
+    display: block;
+    margin-inline: auto;
+  }
+
+  .homepage .news-card .img-brand {
+    width: 300px;
+  }
+
+  .homepage .card-hits-films img {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+@media screen and (max-width: 475px) {
+  .homepage .header-box h1 {
+    font-size: 2.4rem;
+  }
+  .homepage .header-box p {
+    font-size: 14px;
+  }
+  .homepage .header-box img {
+    width: 300px;
+  }
+
+  .homepage .news-card .img-brand {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 375px) {
+  .homepage .header-box h1 {
+    font-size: 2rem;
+  }
+  .homepage .header-box p {
+    font-size: 12px;
+  }
+  .homepage .header-box img {
+    width: 300px;
+  }
+  .homepage .box-hits .col h1 {
+    font-size: 20px;
+  }
+
+  .homepage .box-hots-news h1 {
+    font-size: 20px;
+  }
+  .homepage .news-card .img-brand {
+    width: 150px;
+  }
+  .homepage .news-card .news-caption h5 {
+    font-size: 12px;
+  }
+
+  .homepage .news-card .news-caption p {
+    font-size: 8px;
+  }
+}
+
+.detail-lagu-page {
+  background-color: #d6d3f8;
+  min-height: 100vh;
+  padding-top: 80px;
+  font-family: "Segoe UI", sans-serif;
+  padding-bottom: 40px;
+}
+
+.detail-lagu-info {
+  border-left: 2px solid #636ff8;
+  border-right: 2px solid #636ff8;
+  padding: 0 30px;
+}
+
+.detail-cover-image {
+  width: 100%;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+.detail-lagu-label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 1px;
+  color: #2d2d74;
+}
+
+.detail-lagu-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d2d74;
+  margin-bottom: 5px;
+}
+
+.detail-lagu-subinfo {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 10px;
+}
+
+.badge-genre {
+  display: inline-block;
+  background-color: #b3b2ff;
+  color: #000;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 5px 10px;
+  margin-right: 6px;
+  border-radius: 12px;
+}
+
+.detail-lagu-lyrics {
+  margin-top: 20px;
+  white-space: pre-wrap;
+  line-height: 1.6;
+  font-size: 0.95rem;
+  color: #2d2d2d;
+}
+
+.detail-artis-info {
+  display: flex;
+  align-items: center;
+}
+
+.detail-artis-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.detail-artis-label {
+  font-size: 0.8rem;
+  color: #888;
+  margin: 0;
+}
+
+.detail-artis-nama {
+  font-weight: bold;
+  font-size: 1.1rem;
+  color: #1d1c7d;
+  margin: 0;
+}
+
+.btn-double-group {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  gap: 0;
+}
+
+.btn-lagu-container {
+  flex: 3;
+}
+
+.btn-mv {
+  flex: 1;
+}
+
+.btn-lagu {
+  background-color: #2e388a;
+  color: white;
+  font-size: 0.85rem;
+  padding: 10px 0;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  width: 100%;
+}
+
+.btn-mv {
+  background-color: #2e388a;
+  color: white;
+  font-size: 0.85rem;
+  padding: 10px 0;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 100%;
+}
+
+.btn-lagu:hover,
+.btn-mv:hover {
+  background-color: #1f2a66;
+}
+
+.dropdown-menu {
+  font-size: 0.85rem;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.dropdown-item {
+  padding: 8px 12px;
+}
+
+.btn-detail-button,
+.detail-button2 {
+  display: block;
+  background-color: #2e388a;
+  color: white;
+  font-size: 0.85rem;
+  padding: 8px 16px;
+  border-radius: 10px;
+  text-align: center;
+  text-decoration: none;
+  border: none;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-detail-button:hover,
+.detail-button2:hover {
+  background-color: #3535cc;
+}
+
+/* Ticket FILMS PAGES */
+.ticketfilms {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  gap: 3rem;
+}
+
+.h1-ticketfilms {
+  font-size: 45px;
+  font-weight: bold;
+}
+
+.ticketfilms .img-ticketfilms {
+  border-radius: 20px 20px 0px 0px;
+}
+
+.ticketfilms .card-ticketfilms {
+  background-color: #8e97fd;
+  border-radius: 20px;
+  border: black 1px solid;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ticketfilms .card-ticketfilms:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.15);
+}
+.ticketfilms .btn-ticketfilms {
+  font-size: 14px;
+  background-color: #5562fc;
+  color: #ffeccc;
+  border-radius: 100px;
+}
+
+.ticketfilms .btn-ticketfilms:hover {
+  background-color: #3f51b5;
+}
+
+.card-ticketfilms .card-title {
+  font-size: 22px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.card-ticketfilms .card-text {
+  text-align: justify;
+}
+
+.ticketfilms .link-ticketfilms {
+  display: inline-block;
+  margin-top: 1rem;
+  text-decoration: none;
+  color: black;
+  font-size: 0.9rem;
+}
+
+.ticketfilms .link-ticketfilms:hover {
+  text-decoration: underline;
+}
+
+.ticketfilms .date-ticketfilms {
+  position: absolute;
+  background-color: #a9b0fe;
+  border-radius: 30px;
+  text-align: center;
+  padding: 4px;
+  width: 112px;
+  margin-left: 260px;
+  margin-top: 15px;
+}
+
+.ticketfilms .date-ticketfilms .p-date {
+  font-size: 32px;
+}
+
+.ticketfilms .date-ticketfilms .p-month-year {
+  font-size: 14px;
+  margin-top: -18px;
+}
+
+.detail-film-page {
+  background-color: #dcd6f7;
+  font-family: "Segoe UI", sans-serif;
+  color: #333;
+  padding-top: 80px;
+}
+
+/* Poster */
+.detail-film-page .poster-section {
+  width: 200px;
+  flex-shrink: 0;
+}
+
+.detail-film-page .poster-section img {
+  border-radius: 1rem;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.detail-film-page .btn-double-group {
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  gap: 0;
+}
+
+/* Container tombol dropdown */
+.detail-film-page .btn-film-container {
+  flex: 2.3; /* sedikit lebih besar */
+}
+
+/* Tombol trailer */
+.detail-film-page .btn-trailer {
+  flex: 1.7; /* sedikit lebih kecil */
+}
+
+/* Tombol dropdown utama */
+.detail-film-page .btn-film {
+  background-color: #5562fc;
+  color: white;
+  font-size: 0.85rem;
+  padding: 5px 0;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  width: 100%;
+}
+
+/* Tombol trailer (mirip btn-mv) */
+.detail-film-page .btn-trailer {
+  background-color: #5562fc;
+  color: white;
+  font-size: 0.85rem;
+  padding: 5px 0;
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  width: 100%;
+}
+
+/* Hover state untuk keduanya */
+.detail-film-page .btn-film:hover,
+.detail-film-page .btn-trailer:hover {
+  background-color: #1f2a66;
+}
+
+/* Dropdown menu */
+.detail-film-page .dropdown-menu {
+  font-size: 0.85rem;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Item di dalam dropdown */
+.detail-film-page .dropdown-item {
+  padding: 8px 12px;
+}
+
+/* Info Film */
+.detail-film-page .info-section {
+  flex-grow: 1;
+  max-width: 600px;
+  min-width: 0;
+}
+
+.detail-film-page .info-section h3 {
+  color: #2b2b2b;
+}
+
+.detail-film-page .info-section .badge-genre {
+  background-color: #5562fc;
+  color: #fff;
+  font-size: 0.75rem;
+  padding: 0.4em 0.7em;
+  border-radius: 0.8em;
+}
+
+/* Interaksi Pengguna */
+.detail-film-page .interaction-section {
+  width: 287px;
+  height: 300px;
+  background-color: #a29bfe;
+  border-radius: 1rem;
+  padding: 1rem;
+  color: #2d2d2d;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Ikon atas (Ditonton & Suka) */
+.detail-film-page .interaction-section .icon-row {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-size: 1.5rem;
+}
+
+.detail-film-page .interaction-section .icon-row span {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Rating */
+.detail-film-page .interaction-section .rating {
+  color: #fdcb6e;
+  font-size: 1.5rem;
+}
+
+/* Label dan ikon tambahan */
+.detail-film-page .interaction-section .label {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 0.3rem;
+}
+
+.detail-film-page .interaction-section .interaction-icon {
+  font-size: 1.4rem;
+  color: #2d2d2d;
+}
+
+/* Pemeran / Cast */
+.detail-film-page .cast-section .card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  height: 233px;
+  width: 150px;
+}
+
+.detail-film-page .cast-section .card-img-top {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  height: 15222222px;
+  object-fit: cover;
+}
+
+.detail-film-page .cast-section .card-body {
+  padding: 1rem;
+}
+
+.detail-film-page .cast-section .card-body p {
+  margin-bottom: 0.25rem;
+}
+
+/* Pemeran */
+.detail-film-page .cast-section .card {
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.detail-film-page .cast-section .card-img-top {
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  height: 200px;
+  object-fit: cover;
+}
+
+.detail-film-page .cast-section .card-body {
+  padding: 1rem;
+  background-color: #8e97fd;
+  border-bottom-left-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  text-align: left;
+  color: #ecedff;
+}
+
+.detail-film-page .cast-section .card-body p {
+  margin-bottom: 0.25rem;
+}
+
+.detail-film-page .cast-section .card-body .text-muted small {
+  color: #56334f;
+}
+
+.popular-musics-page {
+  padding-top: 80px;
+  background-color: #dcddff;
+  padding-bottom: 40px;
+}
+
+/* === CAROUSEL SECTION === */
+.popular-musics-page .box-carousel-musics h1 {
+  font-size: 40px;
+  color: #ffffff;
+}
+
+.popular-musics-page .box-carousel-musics img {
+  width: 100%;
+  border-radius: 17px;
+}
+
+.popular-musics-page .box-carousel-musics .carousel-caption img {
+  width: 350px;
+  height: 180px;
+}
+
+.popular-musics-page .box-carousel-musics .carousel-caption {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 0) 47%
+  );
+  border-radius: 17px;
+  padding: 48px;
+}
+
+.popular-musics-page .box-carousel-musics .carousel-caption h5 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.popular-musics-page .box-carousel-musics .carousel-caption p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #a7a7a7;
+}
+
+.popular-musics-page .box-carousel-musics .carousel-caption .btn-seemore {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #8e97fd;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+  font-weight: 400;
+  font-size: 20px;
+  font-style: italic;
+  width: 110px;
+  transition: all 0.3s ease;
+}
+
+.popular-musics-page .box-carousel-musics .carousel-caption .btn-seemore:hover {
+  background-color: #251551;
+  color: white;
+}
+
+.popular-musics-page .box-carousel-musics .carousel img {
+  border-radius: 17px;
+}
+
+.popular-musics-page .box-carousel-musics .carousel {
+  border-radius: 17px;
+  padding: 5px;
+}
+
+.popular-musics-page .box-carousel-musics .carousel .carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.popular-musics-page .box-carousel-musics .carousel .carousel-indicators button {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  opacity: 0.6;
+}
+
+.popular-musics-page .box-carousel-musics .carousel .carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+/* === FILTER BUTTONS === */
+.popular-musics-page .filter-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 40px;
+}
+
+.popular-musics-page .filter-buttons button {
+  background-color: transparent;
+  border: 2px solid #2e388a;
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2e388a;
+  transition: all 0.3s ease-in-out;
+}
+
+.popular-musics-page .filter-buttons .btn.active {
+  background-color: #2e388a;
+  color: #ffffff;
+  border-color: #2e388a;
+  font-weight: 600;
+}
+
+.popular-musics-page .filter-buttons button:hover,
+.popular-musics-page .filter-buttons button.active {
+  background-color: #2e388a;
+  color: #ffffff;
+}
+
+/* === POPULAR MUSIC CARD === */
+.popular-musics-page .music-popular-wrapper {
+  border-radius: 16px;
+}
+
+.popular-musics-page .music-popular-card {
+  background-color: #4b3f6b;
+  border-radius: 16px;
+  overflow: hidden;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+  transition: transform 0.3s ease;
+}
+
+.popular-musics-page .music-popular-card:hover {
+  transform: scale(1.03);
+}
+
+.popular-musics-page .music-popular-image {
+  width: 100%;
+  height: 266px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.popular-musics-page .music-popular-info {
+  background-color: #2e388a;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 130px;
+}
+
+.popular-musics-page .music-popular-title {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.popular-musics-page .music-popular-artist {
+  font-size: 16px;
+  color: #d1cfe3;
+  font-weight: bold;
+  font-style: italic;
+  margin: 4px 0 12px;
+}
+
+.popular-musics-page .music-popular-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid #1c1a28;
+}
+
+.popular-musics-page .music-popular-controls .icon-group-left {
+  display: flex;
+  gap: 15px;
+  font-size: 16px;
+  color: white;
+}
+
+.popular-musics-page .music-popular-controls .icon-group-left i {
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.popular-musics-page .music-popular-controls .icon-group-left i:hover {
+  color: #ff5b5b;
+}
+
+.popular-musics-page .music-popular-controls .play-button {
+  width: 24px;
+  height: 24px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.popular-musics-page .music-popular-controls .play-button i {
+  color: white;
+  font-size: 14px;
+  margin-left: 2px;
+}
+
+.popular-musics-page .music-popular-controls .play-button:hover {
+  border-color: #ff5b5b;
+}
+
+.popular-musics-page .music-popular-controls .play-button:hover i {
+  color: #ff5b5b;
+}
+
+.konser-musics-page {
+  padding-top: 80px;
+  background-color: #dcddff;
+  padding-bottom: 40px;
+}
+
+/* === CAROUSEL SECTION === */
+.konser-musics-page .box-carousel-musics h1 {
+  font-size: 40px;
+  color: #ffffff;
+}
+
+.konser-musics-page .box-carousel-musics img {
+  width: 100%;
+  border-radius: 17px;
+}
+
+.konser-musics-page .box-carousel-musics .carousel-caption img {
+  width: 350px;
+  height: 180px;
+}
+
+.konser-musics-page .box-carousel-musics .carousel-caption {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 0) 47%
+  );
+  border-radius: 17px;
+  padding: 48px;
+}
+
+.konser-musics-page .box-carousel-musics .carousel-caption h5 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #ffffff;
+}
+
+.konser-musics-page .box-carousel-musics .carousel-caption p {
+  font-size: 1rem;
+  font-weight: 400;
+  color: #a7a7a7;
+}
+
+.konser-musics-page .box-carousel-musics .carousel-caption .btn-seemore {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #8e97fd;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+  font-weight: 400;
+  font-size: 20px;
+  font-style: italic;
+  width: 110px;
+  transition: all 0.3s ease;
+}
+
+.konser-musics-page .box-carousel-musics .carousel-caption .btn-seemore:hover {
+  background-color: #251551;
+  color: white;
+}
+
+.konser-musics-page .box-carousel-musics .carousel img {
+  border-radius: 17px;
+}
+
+.konser-musics-page .box-carousel-musics .carousel {
+  border-radius: 17px;
+  padding: 5px;
+}
+
+.konser-musics-page .box-carousel-musics .carousel .carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.konser-musics-page .box-carousel-musics .carousel .carousel-indicators button {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  opacity: 0.6;
+}
+
+.konser-musics-page .box-carousel-musics .carousel .carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  opacity: 1;
+}
+/* === FILTER BUTTONS === */
+.konser-musics-page .filter-buttons {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 20px 0 40px;
+}
+
+.konser-musics-page .filter-buttons button {
+  background-color: transparent;
+  border: 2px solid #2e388a;
+  border-radius: 20px;
+  padding: 6px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  color: #2e388a;
+  transition: all 0.3s ease-in-out;
+}
+
+.konser-musics-page .filter-buttons .btn.active {
+  background-color: #2e388a;
+  color: #ffffff;
+  border-color: #2e388a;
+  font-weight: 600;
+}
+
+.konser-musics-page .filter-buttons button:hover,
+.konser-musics-page .filter-buttons button.active {
+  background-color: #2e388a;
+  color: #ffffff;
+}
+
+.konser-musics-page .konser-item-card.new-layout {
+  background-color: #7E83DF;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  color: white;
+}
+
+.konser-musics-page .konser-item-card.new-layout:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.konser-musics-page .konser-image-section {
+  flex: 0 0 160px;
+  align-self: stretch;
+}
+
+.konser-musics-page .konser-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.konser-musics-page .konser-details-section {
+  flex-grow: 1;
+  padding: 15px 20px;
+  display: flex;
+  flex-direction: column;
+}
+.konser-musics-page .konser-detail-content-wrapper{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+
+.konser-musics-page .konser-row-1,
+.konser-musics-page .konser-row-2 {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 8px;
+}
+.konser-musics-page .konser-row-2 {
+    align-items: center;
+}
+
+
+.konser-musics-page .konser-item-title {
+  font-size: 30px;
+  font-weight: 700;
+  color: #FFECCC;
+  margin-right: 10px;
+  line-height: 1.3;
+  flex-grow: 1;
+}
+
+.konser-musics-page .badge-tiket-habis,
+.konser-musics-page .badge-tiket-gratis {
+  background-color: #DCDDFF;
+  color: #2F3881;
+  padding: 5px 10px;
+  border-radius: 15px;
+  font-size: 18px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.konser-musics-page .konser-item-date-location {
+  font-size: 16px;
+  color: #E0E0FF;
+  margin-bottom: 0;
+  line-height: 1.3;
+}
+
+.konser-musics-page .konser-item-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: #2E388A;
+  margin-bottom: 0;
+  text-align: right;
+  flex-shrink: 0;
+  padding-left:10px;
+}
+
+.konser-musics-page .konser-item-description {
+  font-size: 18px;
+  color: #F0F0FF;
+  line-height: 1.4;
+  margin-top: 4px;
+  margin-bottom: 10px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-grow: 1;
+}
+
+/* --- PERUBAHAN PADA BAGIAN TOMBOL --- */
+.konser-musics-page .konser-button-section {
+  flex: 0 0 180px; 
+  display: flex;
+  align-items: center; 
+  justify-content: center; 
+  padding: 15px; 
+}
+
+.konser-musics-page .btn-amankan-tiket { 
+  background-color: #4A4E9B !important;
+  border-color: #4A4E9B !important;
+  color: white !important;
+  border-radius: 25px; 
+  font-weight: 600;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  padding: 10px 25px;
+  width: auto;
+  height: auto; 
+  transition: background-color 0.2s ease;
+}
+
+.konser-musics-page .btn-amankan-tiket:hover {
+  background-color: #3A3D7A !important;
+  border-color: #3A3D7A !important;
+}
+
+.halaman-pembayaran {
+  background-color: #dcddff; 
+  padding-top: 80px;
+  padding-bottom: 50px;
+  min-height: 100vh;
+  font-family: "nunito";
+}
+
+.info-film-col .film-meta-info {
+  margin-top: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.info-film-col .info-film-type-subtitle {
+  display: block; 
+  font-size: 0.9rem;        
+  color: #6A63A2;          
+  margin-bottom: 6px;    
+  font-weight: 500;         
+}
+
+.info-film-col .info-film-cinema-tag {
+  display: inline-block;    
+  background-color: #3B325F; 
+  color: #FFFFFF;        
+  font-size: 0.75rem;       
+  font-weight: 500;
+  padding: 5px 16px;       
+  border-radius: 20px;    
+  line-height: 1.1;        
+  text-transform: uppercase; 
+}
+
+@media (max-width: 991.98px) { 
+    .konser-musics-page .konser-image-section {
+        flex: 0 0 140px; 
+    }
+    .konser-musics-page .konser-button-section {
+        flex: 0 0 150px; 
+        padding: 10px;
+    }
+     .konser-musics-page .btn-amankan-tiket {
+        font-size: 0.8rem;
+        padding: 8px 20px; /* Sesuaikan padding di tablet */
+     }
+     .konser-musics-page .konser-item-title {
+        font-size: 1rem;
+     }
+}
+
+
+@media (max-width: 767.98px) {
+  .konser-musics-page .konser-item-card.new-layout {
+    flex-direction: column;
+    height: auto;
+  }
+  .konser-musics-page .konser-image-section {
+    width: 100%;
+    height: 180px; 
+    flex-basis: auto;
+  }
+  .konser-musics-page .konser-details-section {
+    padding: 15px;
+  }
+  .konser-musics-page .konser-item-description {
+    -webkit-line-clamp: 3;
+  }
+  .konser-musics-page .konser-button-section {
+    width: 100%;
+    flex-basis: auto;
+    padding: 10px 15px 15px 15px; 
+    justify-content: center; /* Pastikan tombol di tengah kolomnya */
+  }
+  .konser-musics-page .btn-amankan-tiket {
+    height: auto; 
+    padding: 10px 20px;
+    width: auto; /* Di mobile, biarkan tombol tidak full width jika tidak perlu */
+    max-width: 250px; /* Batasi lebar maksimum tombol di mobile */
+  }
+}
+
+/* CSS DASHBOARD */
+/* Sidebar Styling */
+.bg-slider{
+  background-color: var(--primary-color-dashboard);
+  color: var(--text-slider);
+}
+
+.slider-active{
+  background-color: var(--btn-slider-color-dashboard);
+  border-radius: 5px;
+}
+
+.btn-slider{
+  background-color: var(--secondary-color-dashboard);
+  box-shadow: 10px 10px 10px rgba(31, 38, 94, 0.1), -10px -10px 10px rgba(31, 38, 94, 0.1);
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-slider:hover{
+  background-color: var(--btn-slider-color-dashboard);
+}
+
+.sidebar-link {
+  transition: all 0.3s;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+.sidebar-link:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar-link.active {
+  background-color: #0d6efd;
+}
+
+/* Dashboard Content */
+.btn-add{
+  background-color: var(--primary-color-dashboard);
+  box-shadow: 10px 10px 10px rgba(31, 38, 94, 0.1), -10px -10px 10px rgba(31, 38, 94, 0.1);
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-bell{
+  background-color: var(--btn-slider-color-dashboard);
+  box-shadow: 10px 10px 10px rgba(31, 38, 94, 0.1), -10px -10px 10px rgba(31, 38, 94, 0.1);
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-bell:hover{
+  background-color: var(--primary-color-dashboard);
+  color: white;
+  transition: all 0.3s ease-in-out;
+}
+
+
+/* Header Styling */
+
+.bg-header{
+  background-image: none;
+  background-color: var(--secondary-color-dashboard);
+  color: var(--text-slider);
+}
+
+/* Table Styling Enhancement */
+
+
+.table th {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.film-table img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* Form Styling Enhancement */
+.form-addfilms {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.form-addfilms table {
+  width: 100%;
+}
+
+.form-addfilms input, .form-addfilms textarea {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.form-addfilms label {
+  font-weight: 500;
+  margin-bottom: 5px;
+  display: inline-block;
+}
+
+.form-addfilms button {
+  margin-top: 15px;
+}
+
+/* Card Styling */
+.stat-card {
+  transition: transform 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+}
+
+.card-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+
+/* caraousel dashboard */
+.card-carousel-dashboard .carousel {
+  width: 100%;
+  height: auto;
+  position: absolute;
+  top: 10;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.card-carousel-dashboard .carousel-item {
+  transition: transform 0.3s ease-in-out;
+}
+
+
+
+.card-carousel-dashboard .caraousel-img-dashboard{
+  position: relative;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 15px;
+  box-shadow: 10px 10px 10px rgba(31, 38, 94, 0.1), -10px -10px 10px rgba(31, 38, 94, 0.1);
+}
+
+.card-carousel-dashboard .carousel-caption {
+  width: 50%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 1) 10%,
+    rgba(0, 0, 0, 0) 47%
+  );
+  border-radius: 15px;
+  padding: 48px;
+}
+
+.card-carousel-dashboard.carousel-caption img {
+  width: 350px;
+  height: 180px;
+}
+
+.card-carousel-dashboard .carousel-caption .btn-seemore {
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #8e97fd;
+  border-radius: 30px;
+  padding: 4px 20px 4px 20px;
+  font-weight: 400;
+  font-size: 20px;
+  font-style: italic;
+  width: 110px;
+  transition: all 0.3s ease;
+  text-align: center;
+  font-size: small;
+}
+
+.card-carousel-dashboard .carousel .carousel-indicators {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-carousel-dashboard .carousel .carousel-indicators button {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #ffffff;
+  opacity: 0.6;
+}
+
+.card-carousel-dashboard .carousel .carousel-indicators .active {
+  width: 12px;
+  height: 12px;
+  background-color: #ffffff;
+  opacity: 1;
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 70px !important;
+  }
+  
+  .sidebar .sidebar-title,
+  .sidebar .nav-text {
+    display: none;
+  }
+  
+  .main-content {
+    margin-left: 70px;
+  }
+}
